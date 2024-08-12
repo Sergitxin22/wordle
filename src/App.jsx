@@ -49,11 +49,11 @@ function App() {
     console.log(currWord);
     console.log(wordSet);
     
-    if (wordSet.has(currWord.toLowerCase().concat('\r'))) {
+    // if (wordSet.has(currWord.toLowerCase().concat('\r'))) {
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
-    } else {
-      alert('La palabra no es correcta')
-    }
+    // } else {
+    //   alert('La palabra no es correcta')
+    // }
 
     if (currWord === correctWord) {
       alert('¡Felicidades, has ganado!')

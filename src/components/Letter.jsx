@@ -1,59 +1,62 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
+
+function getNumOfOccurrencesInWord(word, letter) {
+  return word.split("").filter((l) => l === letter).length;
+}
+
+function getPositionOfOccurrence(word, letter, position) {
+  let count = 0;
+  for (let i = 0; i <= position; i++) {
+    if (word[i] === letter) count++;
+  }
+  return count;
+}
 
 function Letter({ letterPos, attemptVal }) {
   const { board, correctWord, currAttempt } = useContext(AppContext);
   const letter = board[attemptVal][letterPos];
+  const [letterState, setLetterState] = useState("");
 
-  // No mostrar nada si el intento actual no es mayor que el intento de la letra
-  if (currAttempt.attempt <= attemptVal) {
-    return <div className="letter">{letter}</div>;
-  }
+  useEffect(() => {
+    const correctWordArray = correctWord.split("");
+    const attemptArray = board[attemptVal];
 
-  const correctWordArray = correctWord.split('');
-  const attemptArray = board[attemptVal].slice();
+    // Número de ocurrencias de la letra en la palabra correcta
+    const numOfOccurrencesSecret = getNumOfOccurrencesInWord(correctWord, letter);
+    // Número de ocurrencias de la letra en el intento actual
+    const numOfOccurrencesGuess = getNumOfOccurrencesInWord(attemptArray.join(""), letter);
+    // Posición de la ocurrencia actual de la letra en el intento
+    const letterPosition = getPositionOfOccurrence(attemptArray, letter, letterPos);
 
-  let letterState = 'incorrect';
+    let state = "incorrect";
 
-  // Crear un array para rastrear cuántas veces se ha usado cada letra de la palabra correcta
-  const correctLetterUsage = {};
+    // Si la letra es exactamente igual en la posición correcta
+    if (letter === correctWord[letterPos]) {
+      state = "correct";
+    } 
+    // Si la letra está en la palabra correcta, pero no en la posición correcta
+    else if (correctWord.includes(letter)) {
+      const correctLetterUsage = correctWordArray.reduce((acc, char, index) => {
+        if (char === letter) acc++;
+        return acc;
+      }, 0);
 
-  correctWordArray.forEach((char) => {
-    if (char) {
-      correctLetterUsage[char] = (correctLetterUsage[char] || 0) + 1;
-    }
-  });
+      const usedLetters = attemptArray.slice(0, letterPos).filter((char) => char === letter).length;
 
-  // Array para rastrear qué letras ya se han contado
-  const guessedLetterUsage = {};
-
-  // Marcar las letras correctas primero
-  attemptArray.forEach((char, index) => {
-    if (char === correctWordArray[index]) {
-      if (index === letterPos) {
-        letterState = 'correct';
+      if (usedLetters < correctLetterUsage && letterPosition <= numOfOccurrencesSecret) {
+        state = "almost";
       }
-      guessedLetterUsage[char] = (guessedLetterUsage[char] || 0) + 1;
-      correctLetterUsage[char]--;
     }
-  });
 
-  // Marcar las letras casi correctas
-  // TODO: error, si repites una letra, en un sitio equivocado se ponen todas amarillas
-  if (letterState !== 'correct' && correctWord.includes(letter)) {
-    const alreadyUsed = guessedLetterUsage[letter] || 0;
-    const availableInWord = correctLetterUsage[letter] || 0;
+    setLetterState(state);
+  }, [letter, correctWord, letterPos, board, attemptVal]);
 
-    if (alreadyUsed < availableInWord) {
-      letterState = 'almost';
-      guessedLetterUsage[letter] = alreadyUsed + 1;
-    }
-    console.log(guessedLetterUsage);
-    
-  }
-
+  // <div className='letter' id={letterState}>
   return (
-    <div className="letter" id={letterState}>{letter}</div>
+    <div className={`letter ${letterState}`} id={`box${attemptVal}${letterPos}`}>
+      {letter}
+    </div>
   );
 }
 
