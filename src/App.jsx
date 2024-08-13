@@ -3,6 +3,7 @@ import './App.css'
 import Board from './components/Board'
 import Keyboard from './components/Keyboard'
 import { boardDefault, generateWordSet } from './Words';
+import GameOver from './components/GameOver';
 
 export const AppContext = createContext();
 
@@ -10,12 +11,16 @@ function App() {
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [wordSet, setWordSet] = useState(new Set());
-
-  const correctWord = 'CLIMA'
+  const [disabledLetters, setDisabledLetters] = useState([]);
+  const [correctWord, setCorrectWord] = useState('');
+  const [wordDefinitions, setWordDefinitions] = useState([]);
+  const [gameOver, setGameOver] = useState({gameOver: false, guessedWord: false});
 
   useEffect(() => {
     generateWordSet().then((words) => {
       setWordSet(words.wordSet)
+      setCorrectWord(words.todaysWord.toUpperCase())
+      setWordDefinitions(words.todaysWordDefinitions)
     })
   }, [])
 
@@ -23,7 +28,7 @@ function App() {
 
   const onSelectLetter = (keyVal) => {
     if (currAttempt.letterPos > 4) return
-      
+  
     const newBoard = [...board]
     newBoard[currAttempt.attempt][currAttempt.letterPos] = keyVal
     setBoard(newBoard)
@@ -46,19 +51,25 @@ function App() {
     for (let i = 0; i < 5; i++) {
       currWord += board[currAttempt.attempt][i]
     }
+
     console.log(currWord);
     console.log(wordSet);
     
-    // if (wordSet.has(currWord.toLowerCase().concat('\r'))) {
+    // if (wordSet.has(currWord.toLowerCase())) {
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
     // } else {
-    //   alert('La palabra no es correcta')
+    //   alert('La palabra no es existe')
     // }
 
     if (currWord === correctWord) {
-      alert('¡Felicidades, has ganado!')
+      setGameOver({gameOver: true, guessedWord: true})
+      return
     }
-    
+
+    if (currAttempt.attempt === 5) {
+      setGameOver({gameOver: true, guessedWord: false})
+      return
+    }
   }
 
   return (
@@ -66,10 +77,28 @@ function App() {
       <nav>
         <h1>Wordle</h1>
       </nav>
-      <AppContext.Provider value={{ board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord, guessedLetterUsage, setGuessedLetterUsage }}>
+      <AppContext.Provider 
+        value={{ 
+          board,
+          setBoard,
+          currAttempt,
+          setCurrAttempt,
+          onSelectLetter,
+          onDelete,
+          onEnter,
+          correctWord,
+          guessedLetterUsage,
+          setGuessedLetterUsage,
+          disabledLetters,
+          setDisabledLetters,
+          gameOver,
+          setGameOver,
+          wordDefinitions,
+          setWordDefinitions
+        }}>
         <div className="game">
           <Board />
-          <Keyboard />
+          {gameOver.gameOver ? <GameOver /> : <Keyboard />}
         </div>
       </AppContext.Provider>
     </div>
