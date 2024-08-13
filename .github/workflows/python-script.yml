@@ -30,6 +30,10 @@ jobs:
 
     - name: Commit and Push results
       run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
         git add definiciones.json
         git commit -m "Update word"
         git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
