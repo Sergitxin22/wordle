@@ -32,7 +32,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add definiciones.json
+        git add src/data/hoy/5/spanish/definiciones.json
         git commit -m "Update word"
         git push
       env:
