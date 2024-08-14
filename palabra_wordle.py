@@ -78,7 +78,7 @@ def guardar_definicion(palabra, acepciones):
         # Limita las acepciones a las dos primeras
         acepciones = acepciones[:2]
         definiciones = {'palabra': palabra, 'acepciones': acepciones}
-        with open('src/data/hoy/5/spanish/definiciones.json', 'w', encoding='utf-8') as file:
+        with open('./definiciones.json', 'w', encoding='utf-8') as file:
             json.dump(definiciones, file, ensure_ascii=False, indent=4)
         print(f'\nDefinición guardada en "definiciones.json".')
     except Exception as e:
