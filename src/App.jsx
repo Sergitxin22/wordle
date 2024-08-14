@@ -59,7 +59,7 @@ function App() {
     if (wordSet.has(currWord.toLowerCase())) {      
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
     } else {
-      alert('La palabra no es existe')
+      alert('La palabra no existe')
     }
 
     if (currWord === correctWord) {
