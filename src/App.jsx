@@ -52,14 +52,14 @@ function App() {
       currWord += board[currAttempt.attempt][i]
     }
 
-    console.log(currWord);
-    console.log(wordSet);
+    // console.log(currWord);
+    // console.log(wordSet);
     
-    // if (wordSet.has(currWord.toLowerCase())) {
+    if (wordSet.has(currWord.toLowerCase())) {
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
-    // } else {
-    //   alert('La palabra no es existe')
-    // }
+    } else {
+      alert('La palabra no es existe')
+    }
 
     if (currWord === correctWord) {
       setGameOver({gameOver: true, guessedWord: true})

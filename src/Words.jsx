@@ -30,8 +30,7 @@ export const generateWordSet = async () => {
 
     todaysWordDefinitions = todaysWordJson.acepciones
     
-    console.log('hola:', { wordSet, todaysWord, todaysWordDefinitions });
-        
+    // console.log('hola:', { wordSet, todaysWord, todaysWordDefinitions });
 
     return { wordSet, todaysWord, todaysWordDefinitions }
 }
