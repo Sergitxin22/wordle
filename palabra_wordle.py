@@ -17,7 +17,7 @@ def main():
         if not palabra:
             print('No se pudo obtener la palabra del día.')
             return
-        if len(palabra) != 5:
+        elif len(palabra) != 5:
             print(f'\nLa palabra del día, "{palabra}", no tiene exactamente 5 letras.')
             segunda_palabra = leer_palabra_aleatoria()
             if segunda_palabra:
