@@ -4,7 +4,7 @@ name: Seleccionar palabra para Wordle
 on:
   schedule:
     # Ejecutar cada 5 minutos
-    - cron: '*/5 * * * *'
+    - cron: '0 23 * * *'
   workflow_dispatch:
 
 jobs:
