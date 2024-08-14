@@ -22,11 +22,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install lxml
-        pip install beautifulsoup4 requests
 
     - name: Run Python script
-      run: python palabra_wordle.py  # Reemplaza con el nombre de tu script
+      run: python palabra_del_dia.py  # Reemplaza con el nombre de tu script
 
     - name: Commit and Push results
       run: |
