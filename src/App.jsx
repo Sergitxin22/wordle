@@ -55,7 +55,8 @@ function App() {
     // console.log(currWord);
     // console.log(wordSet);
     
-    if (wordSet.has(currWord.toLowerCase())) {
+    // console.log({wordSet, currWord});
+    if (wordSet.has(currWord.toLowerCase())) {      
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
     } else {
       alert('La palabra no es existe')
