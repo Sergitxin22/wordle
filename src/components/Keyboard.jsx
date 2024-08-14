@@ -19,19 +19,22 @@ function Keyboard() {
       onDelete()
     } else {
       keys1.forEach((key) => {
-        if (key === event.key.toUpperCase() && !disabledLetters.includes(key)) {
+        // if (key === event.key.toUpperCase() && !disabledLetters.includes(key)) {
+        if (key === event.key.toUpperCase()) {
           onSelectLetter(key)
         }
       })
 
       keys2.forEach((key) => {
-        if (key === event.key.toUpperCase() && !disabledLetters.includes(key)) {
+        // if (key === event.key.toUpperCase() && !disabledLetters.includes(key)) {
+        if (key === event.key.toUpperCase()) {
           onSelectLetter(key)
         }
       })
 
       keys3.forEach((key) => {
-        if (key === event.key.toUpperCase() && !disabledLetters.includes(key)) {
+        // if (key === event.key.toUpperCase() && !disabledLetters.includes(key)) {
+        if (key === event.key.toUpperCase()) {
           onSelectLetter(key)
         }
       })

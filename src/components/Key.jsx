@@ -8,7 +8,7 @@ function Key({ keyVal, bigKey, disabled }) {
     if (keyVal === "ENVIAR") {
       onEnter()
     } else {
-      if (disabledLetters.includes(keyVal)) return
+      // if (disabledLetters.includes(keyVal)) return
       onSelectLetter(keyVal)
     }
   }
