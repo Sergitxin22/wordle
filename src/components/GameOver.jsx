@@ -7,9 +7,9 @@ function GameOver() {
     console.log('--------------------------', wordDefinitions);    
 
     return (
-        <div className='px-5 mb-[9rem] text-center place-self-center'>
+        <div className='px-5 mb-[9rem] text-center'>
             <h2 className='text-xl'>{!gameOver.guessedWord && 'Has fallado'}</h2>            
-            {gameOver.guessedWord && (<h1 style={{marginBottom: '5px'}} className='text-6xl font-bold'>Has acertado!!</h1>)}
+            {gameOver.guessedWord && (<h1 style={{marginBottom: '5px'}} className='text-5xl font-bold'>Has acertado!!</h1>)}
 
             {(gameOver.guessedWord && currAttempt.attempt === 1) && (<h3 className='mt-4 text-lg font-semibold'>en {currAttempt.attempt} intento</h3>)}
             {(gameOver.guessedWord && currAttempt.attempt !== 1) && (<h3 className='mt-4 text-lg font-semibold'>en {currAttempt.attempt} intentos</h3>)}
