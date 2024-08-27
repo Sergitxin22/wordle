@@ -59,7 +59,8 @@ function Letter({ letterPos, attemptVal }) {
 
   // Retornar la letra con su estado correspondiente
   return (
-    <div className={`letter ${letterState}`} id={`box${attemptVal}${letterPos}`}>
+    // <div className={`inline-flex justify-center items-center text-2xl tiny:text-4xl uppercase font-bold select-none border-2 border-neutral-300 dark:border-neutral-700 letter ${letterState}`} id={`box${attemptVal}${letterPos}`}>
+    <div className={`inline-flex justify-center items-center text-2xl tiny:text-4xl uppercase font-bold select-none border-2 border-neutral-300 dark:border-neutral-700 ${letterState}`} id={`box${attemptVal}${letterPos}`}>
       {letter}
     </div>
   );

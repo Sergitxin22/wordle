@@ -14,12 +14,13 @@ function Key({ keyVal, bigKey, disabled }) {
   }
 
   return (
-    <div 
-      className="key" 
-      id={bigKey ? "big" : (disabled ? "disabled" : undefined)}
+    <button 
+      className="flex-1 rounded uppercase font-bold p-1 sm:p-2 h-16 text-xs tiny:text-base bg-key" 
+      id={disabled ? "disabled" : undefined}
+      aria-label={keyVal}
       onClick={selectLetter}>
         {keyVal}
-    </div>
+    </button>
   )
 }
 

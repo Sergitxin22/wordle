@@ -10,7 +10,9 @@ function DeleteKey() {
   }
 
   return (
-    <div className="key delete" onClick={deleteKey}><img src={deleteIcon} alt="Delete Icon" /></div>
+    <button className="flex-1 rounded uppercase font-bold p-1 sm:p-2 h-16 text-xs tiny:text-base bg-key" onClick={deleteKey}>
+      <img src={deleteIcon} alt="Delete Icon" />
+      </button>
   )
 }
 
