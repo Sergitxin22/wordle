@@ -7,21 +7,20 @@ function GameOver() {
     console.log('--------------------------', wordDefinitions);    
 
     return (
-        <div className='gameOver'>
-            <h2>{!gameOver.guessedWord && 'Has fallado'}</h2>            
-            {gameOver.guessedWord && (<h1 style={{marginBottom: '5px'}}>Has acertado!!</h1>)}
+        <div className='px-5 mb-[9rem] text-center place-self-center'>
+            <h2 className='text-xl'>{!gameOver.guessedWord && 'Has fallado'}</h2>            
+            {gameOver.guessedWord && (<h1 style={{marginBottom: '5px'}} className='text-6xl font-bold'>Has acertado!!</h1>)}
 
-            {(gameOver.guessedWord && currAttempt.attempt === 1) && (<h3 style={{marginTop: '5px'}}>en {currAttempt.attempt} intento</h3>)}
-            {(gameOver.guessedWord && currAttempt.attempt !== 1) && (<h3>en {currAttempt.attempt} intentos</h3>)}
-                <hr />
-            <div style={{ textAlign: 'center', maxWidth: '900px'}}>
-                <div style={{ textAlign: 'left'}}>
-                    {!gameOver.guessedWord && (<h1>La palabra de hoy era: {correctWord}</h1>)}
-                    
-                    {wordDefinitions.map((definition, index) => (
-                        <h3 key={index}>{definition}</h3>
-                    ))}
-                </div>
+            {(gameOver.guessedWord && currAttempt.attempt === 1) && (<h3 className='mt-4 text-lg font-semibold'>en {currAttempt.attempt} intento</h3>)}
+            {(gameOver.guessedWord && currAttempt.attempt !== 1) && (<h3 className='mt-4 text-lg font-semibold'>en {currAttempt.attempt} intentos</h3>)}
+            
+            {!gameOver.guessedWord && (<h2 className='text-3xl'>La palabra de hoy era: <span className='text-4xl font-bold'>{correctWord}</span></h2>)}
+            <hr className='my-3' />
+            
+            <div className='text-left'>                
+                {wordDefinitions.map((definition, index) => (
+                    <h3 key={index} className='text-xl font-semibold leading-8'>{definition}</h3>
+                ))}
             </div>
         </div>
     )
