@@ -81,7 +81,6 @@ function App() {
   }
 
   return (
-    <div className="">
       <div className="dark:bg-dark dark:text-neutral-100 text-black">
         <div className="container mx-auto flex flex-col max-w-md h-screen">
           <Header />
@@ -113,7 +112,6 @@ function App() {
           </AppContext.Provider>
         </div>
       </div>
-    </div>
   )
 }
 

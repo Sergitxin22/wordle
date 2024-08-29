@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundColor: {
-        // 'dark': 'rgb(18 18 19)',
+        'dark': 'rgb(18 18 19)',
       },
       fontSize: {
         'text-base': '1rem',
