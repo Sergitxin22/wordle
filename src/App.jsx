@@ -5,6 +5,7 @@ import Keyboard from './components/Keyboard'
 import { boardDefault, generateWordSet } from './Words';
 import GameOver from './components/GameOver';
 import Header from './components/Header';
+import Toast from './components/Toast';
 
 export const AppContext = createContext();
 
@@ -16,6 +17,7 @@ function App() {
   const [correctWord, setCorrectWord] = useState('');
   const [wordDefinitions, setWordDefinitions] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false });
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     generateWordSet().then((words) => {
@@ -60,7 +62,11 @@ function App() {
     if (wordSet.has(currWord.toLowerCase())) {
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
     } else {
-      alert('La palabra no existe')
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000); // Ocultar después de 3 segundos
+      return;
     }
 
     if (currWord === correctWord) {
@@ -75,10 +81,11 @@ function App() {
   }
 
   return (
-    <div className="dark">
+    <div className="">
       <div className="dark:bg-dark dark:text-neutral-100 text-black">
         <div className="container mx-auto flex flex-col max-w-md h-screen">
           <Header />
+          {showToast && <Toast message="La palabra no existe" onClose={() => setShowToast(false)} />}
           <div className="Toastify"></div>
           <AppContext.Provider
             value={{
@@ -102,7 +109,7 @@ function App() {
             <main className="flex flex-auto justify-center items-center">
               <Board />
             </main>
-              {gameOver.gameOver ? <GameOver /> : <Keyboard />}
+            {gameOver.gameOver ? <GameOver /> : <Keyboard />}
           </AppContext.Provider>
         </div>
       </div>
