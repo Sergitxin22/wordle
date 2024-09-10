@@ -81,37 +81,37 @@ function App() {
   }
 
   return (
-      <div className="dark:bg-dark dark:text-neutral-100 text-black">
-        <div className="container mx-auto flex flex-col max-w-md h-screen">
-          <Header />
-          {showToast && <Toast message="La palabra no existe" onClose={() => setShowToast(false)} />}
-          <div className="Toastify"></div>
-          <AppContext.Provider
-            value={{
-              board,
-              setBoard,
-              currAttempt,
-              setCurrAttempt,
-              onSelectLetter,
-              onDelete,
-              onEnter,
-              correctWord,
-              guessedLetterUsage,
-              setGuessedLetterUsage,
-              disabledLetters,
-              setDisabledLetters,
-              gameOver,
-              setGameOver,
-              wordDefinitions,
-              setWordDefinitions
-            }}>
-            <main className="flex flex-auto justify-center items-center">
-              <Board />
-            </main>
-            {gameOver.gameOver ? <GameOver /> : <Keyboard />}
-          </AppContext.Provider>
-        </div>
+    <div className="dark:bg-dark dark:text-neutral-100 text-black">
+      <div className="container mx-auto flex flex-col max-w-md h-dvh">
+        <Header />
+        {showToast && <Toast message="La palabra no existe" onClose={() => setShowToast(false)} />}
+        <div className="Toastify"></div>
+        <AppContext.Provider
+          value={{
+            board,
+            setBoard,
+            currAttempt,
+            setCurrAttempt,
+            onSelectLetter,
+            onDelete,
+            onEnter,
+            correctWord,
+            guessedLetterUsage,
+            setGuessedLetterUsage,
+            disabledLetters,
+            setDisabledLetters,
+            gameOver,
+            setGameOver,
+            wordDefinitions,
+            setWordDefinitions
+          }}>
+          <main className="flex flex-auto justify-center items-center">
+            <Board />
+          </main>
+          {gameOver.gameOver ? <GameOver /> : <Keyboard />}
+        </AppContext.Provider>
       </div>
+    </div>
   )
 }
 
