@@ -131,6 +131,6 @@ body {
 }
 
 .bg-key {
-  --tw-bg-opacity: 1;
+  --tw-bg-opacity: 0.8;
   background-color: rgb(var(--key-bg)/var(--tw-bg-opacity));
 }
