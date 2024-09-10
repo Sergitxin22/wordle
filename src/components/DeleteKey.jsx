@@ -10,9 +10,9 @@ function DeleteKey() {
   }
 
   return (
-    <button className="flex-1 rounded uppercase font-bold p-1 sm:p-2 h-16 text-xs tiny:text-base bg-key" onClick={deleteKey}>
+    <button className="flex-1 rounded uppercase font-bold p-1 sm:p-2 h-16 text-xs tiny:text-base bg-key" aria-label="borrar letra" onClick={deleteKey}>
       <DeleteIcon />
-      </button>
+    </button>
   )
 }
 
