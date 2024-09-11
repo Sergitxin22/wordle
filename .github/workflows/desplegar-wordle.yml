@@ -26,10 +26,6 @@ jobs:
       - name: Ejecutar build
         run: npm run build
 
-      # Agregar o preservar el archivo CNAME
-      - name: Agregar archivo CNAME
-        run: echo "wordle.sergiomorales.dev" > docs/CNAME
-
       - name: Commit y Push de cambios
         run: |
           git config --local user.email "action@github.com"
