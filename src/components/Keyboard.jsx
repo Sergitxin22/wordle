@@ -39,6 +39,9 @@ function Keyboard() {
         }
       })
     }
+
+    // Elimina el foco del botón después de hacer clic
+    event.target.blur();
   })
 
   useEffect(() => {
