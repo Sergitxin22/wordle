@@ -50,7 +50,7 @@ function Keyboard() {
   }, [handleKeyboard])
 
   return (
-    <div className="flex flex-col container w-full max-w-lg pb-2 md:pb-5 px-2 mx-auto gap-2" onKeyDown={handleKeyboard}>
+    <div className="flex flex-col container w-full max-w-lg pb-2 md:pb-5 px-2 mx-auto gap-2">
       <div className="flex gap-1">
         {keys1.map((key) => (
           <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)} almost={almostLetters.includes(key)} correct={correctLetters.includes(key)} />
