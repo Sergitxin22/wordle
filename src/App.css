@@ -12,13 +12,13 @@
   }
 }
 
-.correct {
-  background-color: var(--color-correct);
-}
-
 .almost {
   background-color: var(--color-almost);
   /* #b59f3b */
+}
+
+.correct {
+  background-color: var(--color-correct);
 }
 
 .error {

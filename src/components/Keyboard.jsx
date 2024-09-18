@@ -6,7 +6,7 @@ import DeleteKey from "./DeleteKey";
 import { useCallback, useEffect } from "react";
 
 function Keyboard() {
-  const { onSelectLetter, onEnter, onDelete, disabledLetters } = useContext(AppContext);
+  const { onSelectLetter, onEnter, onDelete, disabledLetters, almostLetters, correctLetters } = useContext(AppContext);
 
   const keys1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
   const keys2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ']
@@ -53,18 +53,18 @@ function Keyboard() {
     <div className="flex flex-col container w-full max-w-lg pb-2 md:pb-5 px-2 mx-auto gap-2" onKeyDown={handleKeyboard}>
       <div className="flex gap-1">
         {keys1.map((key) => (
-          <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)} />
+          <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)} almost={almostLetters.includes(key)} correct={correctLetters.includes(key)} />
         ))}
       </div>
       <div className="flex gap-1">
         {keys2.map((key) => (
-          <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)} />
+          <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)} almost={almostLetters.includes(key)} correct={correctLetters.includes(key)} />
         ))}
       </div>
       <div className="flex gap-1">
         <Key key="enter" keyVal="ENVIAR" bigKey />
         {keys3.map((key) => (
-          <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)} />
+          <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)} almost={almostLetters.includes(key)} correct={correctLetters.includes(key)} />
         ))}
         <DeleteKey />
       </div>

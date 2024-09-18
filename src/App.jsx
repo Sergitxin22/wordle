@@ -14,6 +14,8 @@ function App() {
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [wordSet, setWordSet] = useState(new Set());
   const [disabledLetters, setDisabledLetters] = useState([]);
+  const [correctLetters, setCorrectLetters] = useState([]);
+  const [almostLetters, setAlmostLetters] = useState([]);
   const [correctWord, setCorrectWord] = useState('');
   const [wordDefinitions, setWordDefinitions] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false });
@@ -100,6 +102,10 @@ function App() {
             setGuessedLetterUsage,
             disabledLetters,
             setDisabledLetters,
+            correctLetters,
+            setCorrectLetters,
+            almostLetters,
+            setAlmostLetters,
             gameOver,
             setGameOver,
             wordDefinitions,

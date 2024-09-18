@@ -6,7 +6,7 @@ function getNumOfOccurrencesInWord(word, letter) {
 }
 
 function Letter({ letterPos, attemptVal }) {
-  const { board, correctWord, currAttempt, disabledLetters, setDisabledLetters } = useContext(AppContext);
+  const { board, correctWord, currAttempt, disabledLetters, setDisabledLetters, correctLetters, setCorrectLetters, almostLetters, setAlmostLetters } = useContext(AppContext);
   const letter = board[attemptVal][letterPos];
   const [letterState, setLetterState] = useState("");
 
@@ -46,6 +46,19 @@ function Letter({ letterPos, attemptVal }) {
 
     // Asignar el estado final al letterState del componente actual
     setLetterState(tempStates[letterPos]);
+
+    // Agregar letra a correctLetters si está en la palabra correcta y en la posición correcta
+    if (currAttempt.attempt > attemptVal && letter !== "" && getNumOfOccurrencesInWord(correctWord, letter) > 0) {
+      if (tempStates[letterPos] === "correct") {
+        setCorrectLetters((prev) => [...new Set([...prev, letter])]);
+      } else if (tempStates[letterPos] === "almost") {
+        setAlmostLetters((prev) => [...new Set([...prev, letter])]);
+      }
+    }
+
+    // console.log({ correctLetters });
+    // console.log({ almostLetters });
+
   }, [letter, correctWord, letterPos, board, attemptVal, currAttempt]);
 
   useEffect(() => {
@@ -55,7 +68,7 @@ function Letter({ letterPos, attemptVal }) {
   }, [currAttempt.attempt, letter, letterState, attemptVal, setDisabledLetters]);
 
   // console.log(disabledLetters);
-  
+
   const baseClasses = "inline-flex justify-center items-center text-2xl tiny:text-4xl uppercase font-bold select-none border-2 border-neutral-300 dark:border-neutral-700";
   const letterClasses = letterState ? `text-white ${letterState} border-none` : baseClasses;
   const letterActiveClasses = letter ? `border-neutral-500 dark:border-neutral-600` : '';
