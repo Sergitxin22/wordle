@@ -10,6 +10,7 @@ import Toast from './components/Toast';
 export const AppContext = createContext();
 
 function App() {
+  const [language, setLanguage] = useState("es");
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [wordSet, setWordSet] = useState(new Set());
@@ -22,12 +23,14 @@ function App() {
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
-    generateWordSet().then((words) => {
-      setWordSet(words.wordSet)
-      setCorrectWord(words.todaysWord.toUpperCase())
-      setWordDefinitions(words.todaysWordDefinitions)
-    })
-  }, [])
+    if (language) { // Asegúrate de que language no esté vacío
+      generateWordSet(language).then((words) => {
+        setWordSet(words.wordSet);
+        setCorrectWord(words.todaysWord.toUpperCase());
+        setWordDefinitions(words.todaysWordDefinitions);
+      });
+    }
+  }, [language]); // language como dependencia, para ejecutar cuando cambie
 
   const [guessedLetterUsage, setGuessedLetterUsage] = useState({});
 
@@ -85,11 +88,13 @@ function App() {
   return (
     <div className="dark:bg-dark dark:text-neutral-100 text-black">
       <div className="container mx-auto flex flex-col max-w-md h-dvh">
-        <Header />
+        {/* <Header /> */}
         {showToast && <Toast message="La palabra no existe" onClose={() => setShowToast(false)} />}
         <div className="Toastify"></div>
         <AppContext.Provider
           value={{
+            language,
+            setLanguage,
             board,
             setBoard,
             currAttempt,
@@ -111,6 +116,8 @@ function App() {
             wordDefinitions,
             setWordDefinitions
           }}>
+          <Header />
+
           <main className="flex flex-auto justify-center items-center">
             <Board />
           </main>

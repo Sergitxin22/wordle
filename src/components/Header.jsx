@@ -1,4 +1,15 @@
+import { useContext } from "react";
+import { AppContext } from "../App";
+
 function Header() {
+    // Obtener language y setLanguage del contexto
+    const { language, setLanguage } = useContext(AppContext);
+
+    // Función para manejar el cambio de idioma
+    const handleChangeLanguage = (selectedLanguage) => {
+        setLanguage(selectedLanguage); // Actualiza el estado del idioma en el contexto
+    };
+
     return (
         <header className="flex flex-row max-w-lg py-2 px-3 border-b dark:border-neutral-700">
             <button className="m-0 sm:my-2 flex-none" aria-label="cómo jugar">
@@ -28,6 +39,15 @@ function Header() {
                     </path>
                 </svg>
             </button>
+
+
+            {/* // En el JSX de tu componente: */}
+            <select onChange={(e) => handleChangeLanguage(e.target.value)} value={language} className="text-black dark:text-white dark:bg-[#121212]">
+                {/* <select> */}
+                <option value="es" className="text-black dark:text-white">Español</option>
+                <option value="en" className="text-black dark:text-white">English</option>
+                <option value="eu" className="text-black dark:text-white">Euskara</option>
+            </select>
         </header>
     )
 }
