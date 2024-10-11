@@ -6,6 +6,7 @@ import { boardDefault, generateWordSet } from './Words';
 import GameOver from './components/GameOver';
 import Header from './components/Header';
 import Toast from './components/Toast';
+import Options from './components/Options';
 
 export const AppContext = createContext();
 
@@ -20,6 +21,58 @@ function App() {
   const [wordDefinitions, setWordDefinitions] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false });
   const [showToast, setShowToast] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+  const [darkMode, setDarkMode] = useState(false); // Estado para el modo oscuro
+
+  useEffect(() => {
+    // Efecto para sincronizar con la preferencia del sistema
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    // Función para aplicar el modo oscuro basado en localStorage o preferencia del sistema
+    const applyDarkMode = () => {
+      const savedMode = localStorage.getItem('darkMode');
+
+      if (savedMode === null) {
+        // Si no hay valor en localStorage, usar la preferencia del sistema
+        const isDarkMode = mediaQuery.matches;
+        setDarkMode(isDarkMode);
+        document.documentElement.classList.toggle('dark', isDarkMode);
+      } else {
+        // Si hay valor en localStorage, usar ese valor
+        const isDarkMode = savedMode === 'true';
+        setDarkMode(isDarkMode);
+        document.documentElement.classList.toggle('dark', isDarkMode);
+      }
+    };
+
+    applyDarkMode(); // Aplicar modo oscuro al cargar el componente
+
+    // Manejar cambios en la preferencia del sistema
+    const handleChange = (e) => {
+      // Solo aplica cambios si no hay un valor en localStorage
+      if (localStorage.getItem('darkMode') === null) {
+        const isDarkMode = e.matches;
+        setDarkMode(isDarkMode);
+        document.documentElement.classList.toggle('dark', isDarkMode);
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+
+    // Limpiar el efecto
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem('darkMode', newMode); // Guardar el nuevo estado en localStorage
+      document.documentElement.classList.toggle('dark', newMode); // Cambiar la clase en <html>
+      return newMode;
+    });
+  };
 
   useEffect(() => {
     generateWordSet().then((words) => {
@@ -85,9 +138,6 @@ function App() {
   return (
     <div className="dark:bg-dark dark:text-neutral-100 text-black">
       <div className="container mx-auto flex flex-col max-w-md h-dvh">
-        <Header />
-        {showToast && <Toast message="La palabra no existe" onClose={() => setShowToast(false)} />}
-        <div className="Toastify"></div>
         <AppContext.Provider
           value={{
             board,
@@ -109,12 +159,26 @@ function App() {
             gameOver,
             setGameOver,
             wordDefinitions,
-            setWordDefinitions
+            setWordDefinitions,
+            showOptions,
+            setShowOptions,
+            darkMode,
+            toggleDarkMode, // Agregar toggleDarkMode al contexto
           }}>
-          <main className="flex flex-auto justify-center items-center">
-            <Board />
-          </main>
-          {gameOver.gameOver ? <GameOver /> : <Keyboard />}
+
+          {!showOptions ? (
+            <>
+              <Header />
+              {showToast && <Toast message="La palabra no existe" onClose={() => setShowToast(false)} />}
+              <div className="Toastify"></div>
+              <main className="flex flex-auto justify-center items-center">
+                <Board />
+              </main>
+              {gameOver.gameOver ? <GameOver /> : <Keyboard />}
+            </>
+          ) : (
+            <Options /> // Mostrar Options cuando options es true
+          )}
         </AppContext.Provider>
       </div>
     </div>
