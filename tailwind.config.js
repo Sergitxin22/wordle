@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       backgroundColor: {
@@ -12,7 +13,7 @@ export default {
       fontSize: {
         'text-base': '1rem',
       },
-      
+
     }
   },
   plugins: [],
