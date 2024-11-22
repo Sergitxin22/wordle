@@ -10,7 +10,7 @@ import Toast from './components/Toast';
 export const AppContext = createContext();
 
 function App() {
-  const [language, setLanguage] = useState("es");
+  const [language, setLanguage] = useState(localStorage.getItem('language') || "es");
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [wordSet, setWordSet] = useState(new Set());
@@ -21,6 +21,11 @@ function App() {
   const [wordDefinitions, setWordDefinitions] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false });
   const [showToast, setShowToast] = useState(false);
+
+  // Cambiar el idioma también cambia el idioma en localStorage
+  useEffect(() => {
+    localStorage.setItem('language', language); // Guarda el idioma actual en localStorage
+  }, [language]);
 
   useEffect(() => {
     if (language) { // Asegúrate de que language no esté vacío

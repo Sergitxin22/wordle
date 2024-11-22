@@ -1,13 +1,22 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../App";
 
 function Header() {
     // Obtener language y setLanguage del contexto
     const { language, setLanguage } = useContext(AppContext);
 
+    // Efecto para cargar el idioma desde localStorage al inicio
+    useEffect(() => {
+        const storedLanguage = localStorage.getItem('language');
+        if (storedLanguage) {
+            setLanguage(storedLanguage);
+        }
+    }, [setLanguage]);
+
     // Función para manejar el cambio de idioma
     const handleChangeLanguage = (selectedLanguage) => {
         setLanguage(selectedLanguage); // Actualiza el estado del idioma en el contexto
+        localStorage.setItem('language', selectedLanguage); // Almacena el idioma en localStorage
     };
 
     return (
@@ -19,9 +28,6 @@ function Header() {
                     </path>
                 </svg>
             </button>
-            <div className="flex-auto text-center">
-                <h1 className="uppercase font-extrabold text-2xl sm:text-3xl tracking-wider">Wordle (ES)</h1>
-            </div>
             <button className="mx-3 text-xl" aria-label="estadísticas de juego">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" className="h-6 w-6 text-neutral-500 dark:text-neutral-600">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -40,6 +46,9 @@ function Header() {
                 </svg>
             </button>
 
+            <div className="flex-auto text-center">
+                <h1 className="uppercase font-extrabold text-2xl sm:text-3xl tracking-wider">Wordle (ES)</h1>
+            </div>
 
             {/* // En el JSX de tu componente: */}
             <select onChange={(e) => handleChangeLanguage(e.target.value)} value={language} className="text-black dark:text-white dark:bg-[#121212]">
