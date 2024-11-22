@@ -6,11 +6,17 @@ import DeleteKey from "./DeleteKey";
 import { useCallback, useEffect } from "react";
 
 function Keyboard() {
-  const { onSelectLetter, onEnter, onDelete, disabledLetters, almostLetters, correctLetters } = useContext(AppContext);
+  const { onSelectLetter, onEnter, onDelete, disabledLetters, almostLetters, correctLetters, language } = useContext(AppContext);
 
   const keys1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
   const keys2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ']
   const keys3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+
+  if (language.toLowerCase() != "es") {
+    console.log(language.toLowerCase());
+
+    keys2.pop();
+  }
 
   const handleKeyboard = useCallback((event) => {
     if (event.key === 'Enter') {

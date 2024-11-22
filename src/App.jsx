@@ -11,6 +11,7 @@ import Options from './components/Options';
 export const AppContext = createContext();
 
 function App() {
+  const [language, setLanguage] = useState(localStorage.getItem('language') || "es");
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [wordSet, setWordSet] = useState(new Set());
@@ -21,6 +22,11 @@ function App() {
   const [wordDefinitions, setWordDefinitions] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false });
   const [showToast, setShowToast] = useState(false);
+
+  // Cambiar el idioma también cambia el idioma en localStorage
+  useEffect(() => {
+    localStorage.setItem('language', language); // Guarda el idioma actual en localStorage
+  }, [language]);
   const [showOptions, setShowOptions] = useState(false);
   const [darkMode, setDarkMode] = useState(false); // Estado para el modo oscuro
 
@@ -75,12 +81,14 @@ function App() {
   };
 
   useEffect(() => {
-    generateWordSet().then((words) => {
-      setWordSet(words.wordSet)
-      setCorrectWord(words.todaysWord.toUpperCase())
-      setWordDefinitions(words.todaysWordDefinitions)
-    })
-  }, [])
+    if (language) { // Asegúrate de que language no esté vacío
+      generateWordSet(language).then((words) => {
+        setWordSet(words.wordSet);
+        setCorrectWord(words.todaysWord.toUpperCase());
+        setWordDefinitions(words.todaysWordDefinitions);
+      });
+    }
+  }, [language]); // language como dependencia, para ejecutar cuando cambie
 
   const [guessedLetterUsage, setGuessedLetterUsage] = useState({});
 
@@ -140,6 +148,8 @@ function App() {
       <div className="container mx-auto flex flex-col max-w-md h-dvh">
         <AppContext.Provider
           value={{
+            language,
+            setLanguage,
             board,
             setBoard,
             currAttempt,
