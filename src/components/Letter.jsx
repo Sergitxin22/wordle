@@ -6,9 +6,25 @@ function getNumOfOccurrencesInWord(word, letter) {
 }
 
 function Letter({ letterPos, attemptVal }) {
-  const { board, correctWord, currAttempt, disabledLetters, setDisabledLetters, correctLetters, setCorrectLetters, almostLetters, setAlmostLetters } = useContext(AppContext);
+  const { board, correctWord, currAttempt, disabledLetters, setDisabledLetters, correctLetters, setCorrectLetters, almostLetters, setAlmostLetters, language } = useContext(AppContext);
   const letter = board[attemptVal][letterPos];
   const [letterState, setLetterState] = useState("");
+  const [resetLetterClasses, setResetLetterClasses] = useState(false);
+
+  useEffect(() => {
+    // Si el idioma cambia, restablecer las clases de las letras
+    if (language) {
+      setResetLetterClasses(true); // Se activa el reset de clases cuando cambia el idioma
+    }
+  }, [language]); // Dependiendo del cambio de idioma
+
+  useEffect(() => {
+    if (resetLetterClasses) {
+      // Si se ha activado el reset, restablecer el estado de las letras
+      setLetterState("");
+      setResetLetterClasses(false); // Desactivar el reset después de restablecer
+    }
+  }, [resetLetterClasses]); // Depende de cuando se activa el reset
 
   useEffect(() => {
     // No mostrar nada si el intento actual no es mayor que el intento de la letra

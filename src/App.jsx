@@ -86,6 +86,14 @@ function App() {
         setWordSet(words.wordSet);
         setCorrectWord(words.todaysWord.toUpperCase());
         setWordDefinitions(words.todaysWordDefinitions);
+
+        // Reiniciar el estado del tablero y los intentos
+        setBoard(boardDefault.map(row => [...row]));
+        setCurrAttempt({ attempt: 0, letterPos: 0 }); // Reinicia los intentos
+        setDisabledLetters([]); // Limpia las letras deshabilitadas
+        setCorrectLetters([]); // Limpia las letras correctas
+        setAlmostLetters([]); // Limpia las letras mal colocadas
+        console.log(board);
       });
     }
   }, [language]); // language como dependencia, para ejecutar cuando cambie
