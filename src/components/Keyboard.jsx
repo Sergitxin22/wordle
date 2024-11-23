@@ -13,7 +13,7 @@ function Keyboard() {
   const keys3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
 
   if (language.toLowerCase() != "es") {
-    console.log(language.toLowerCase());
+    // console.log(language.toLowerCase());
 
     keys2.pop();
   }

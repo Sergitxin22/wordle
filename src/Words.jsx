@@ -37,8 +37,8 @@ export const generateWordSet = async (language) => {
             break;
     }
 
-    console.log(language);
-    console.log(todaysWordJson);
+    // console.log(language);
+    // console.log(todaysWordJson);
 
 
 
@@ -69,7 +69,7 @@ export const generateWordSet = async (language) => {
 
     todaysWordDefinitions = todaysWordJson.acepciones
 
-    console.log('hola:', { wordSet, todaysWord, todaysWordDefinitions });
+    // console.log('hola:', { wordSet, todaysWord, todaysWordDefinitions });
 
     return { wordSet, todaysWord, todaysWordDefinitions }
 }

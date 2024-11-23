@@ -93,7 +93,6 @@ function App() {
         setDisabledLetters([]); // Limpia las letras deshabilitadas
         setCorrectLetters([]); // Limpia las letras correctas
         setAlmostLetters([]); // Limpia las letras mal colocadas
-        console.log(board);
       });
     }
   }, [language]); // language como dependencia, para ejecutar cuando cambie
