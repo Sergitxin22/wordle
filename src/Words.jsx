@@ -4,7 +4,7 @@ import englishDefinitions from './data/hoy/5/english/definiciones.json';
 import basqueDefinitions from './data/hoy/5/euskara/definiciones.json';
 
 // Importaciones estáticas de palabras válidas en distintos idiomas
-import spanishWords from './data/spanish/sin-tildes/5.json';
+import spanishWords from './data/spanish/todas/5.json';
 import englishWords from './data/english/5.json';
 import basqueWords from './data/euskara/5.json';
 
