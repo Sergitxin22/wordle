@@ -6,7 +6,7 @@ function Options() {
     const { showOptions, setShowOptions, darkMode, toggleDarkMode } = useContext(AppContext);
 
     return (
-        <div className="h-full">
+        <div className="h-full w-full">
             <div className="flex flex-col w-full h-full outline-none focus:outline-none">
                 <div className="flex-initial relative m-5">
                     <h3 className="flex-auto uppercase text-center text-xl font-bold">Opciones</h3>

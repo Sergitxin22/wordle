@@ -21,7 +21,7 @@ function Header() {
 
     const { showOptions, setShowOptions } = useContext(AppContext)
     return (
-        <header className="flex flex-row max-w-lg py-2 px-3 border-b dark:border-neutral-700">
+        <header className={`flex flex-row max-w-lg py-2 px-3 border-b dark:border-neutral-700 transition-opacity duration-300 ${showOptions ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             <button className="m-0 sm:my-2 flex-none" aria-label="cómo jugar">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" className="h-6 w-6 text-neutral-500 dark:text-neutral-600">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"

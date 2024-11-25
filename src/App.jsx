@@ -183,20 +183,27 @@ function App() {
             darkMode,
             toggleDarkMode, // Agregar toggleDarkMode al contexto
           }}>
+          <Header opacity={showOptions} />
 
-          {!showOptions ? (
-            <>
-              <Header />
-              {showToast && <Toast message="La palabra no existe" onClose={() => setShowToast(false)} />}
-              <div className="Toastify"></div>
-              <main className="flex flex-auto justify-center items-center">
-                <Board />
-              </main>
-              {gameOver.gameOver ? <GameOver /> : <Keyboard />}
-            </>
-          ) : (
-            <Options /> // Mostrar Options cuando options es true
-          )}
+          {/* Contenido principal: Ocultar visualmente pero sin desmontar */}
+          <div
+            className={`transition-opacity duration-300 ${showOptions ? "opacity-0 pointer-events-none" : "opacity-100"
+              } flex flex-col flex-auto`}
+          >
+            {showToast && <Toast message="La palabra no existe" onClose={() => setShowToast(false)} />}
+            <main className="flex flex-auto justify-center items-center">
+              <Board />
+            </main>
+            {gameOver.gameOver ? <GameOver /> : <Keyboard />}
+          </div>
+
+          {/* Mostrar Options sobre el resto del contenido */}
+          <div
+            className={`absolute inset-0 flex justify-center items-center bg-opacity-100 transition-opacity duration-300 ${showOptions ? "opacity-100 pointer-events-auto z-10" : "opacity-100 pointer-events-none"
+              }`}
+          >
+            {showOptions && <Options />}
+          </div>
         </AppContext.Provider>
       </div>
     </div>
