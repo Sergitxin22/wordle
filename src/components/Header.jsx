@@ -48,7 +48,7 @@ function Header() {
             </button>
 
             <div className="flex-auto text-center">
-                <h1 className="uppercase font-extrabold text-2xl sm:text-3xl tracking-wider">Wordle (ES)</h1>
+                <h1 className="uppercase font-extrabold text-2xl sm:text-3xl tracking-wider">Wordle ({language})</h1>
             </div>
 
             {/* // En el JSX de tu componente: */}
