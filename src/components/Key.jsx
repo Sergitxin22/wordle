@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AppContext } from "../App";
 
 function Key({ keyVal, bigKey, disabled, almost, correct }) {
-  const { onSelectLetter, onEnter, disabledLetters } = useContext(AppContext);
+  const { onSelectLetter, onEnter, disabledLetters, language } = useContext(AppContext);
 
   const selectLetter = () => {
     if (keyVal === "ENVIAR") {
@@ -12,6 +12,10 @@ function Key({ keyVal, bigKey, disabled, almost, correct }) {
       onSelectLetter(keyVal)
     }
   }
+
+  const displayText = keyVal === "ENVIAR"
+    ? (language === "es" ? "ENVIAR" : language === "en" ? "SEND" : language === "eu" ? "BIDALI" : keyVal)
+    : keyVal;
 
   const keyClasses = [
     "flex-1 rounded uppercase font-bold p-1 sm:p-2 h-16 text-xs tiny:text-base bg-key",
@@ -25,7 +29,7 @@ function Key({ keyVal, bigKey, disabled, almost, correct }) {
       id={disabled ? "disabled" : undefined}
       aria-label={keyVal}
       onClick={selectLetter}>
-      {keyVal}
+      {displayText}
     </button>
   )
 }
