@@ -199,7 +199,7 @@ function App() {
 
           {/* Mostrar Options sobre el resto del contenido */}
           <div
-            className={`absolute inset-0 flex justify-center items-center bg-opacity-100 transition-opacity duration-300 ${showOptions ? "opacity-100 pointer-events-auto z-10" : "opacity-100 pointer-events-none"
+            className={`container mx-auto flex flex-col max-w-md h-dvh absolute inset-0 flex justify-center items-center px-5 md:px-0 bg-opacity-100 transition-opacity duration-300 ${showOptions ? "opacity-100 pointer-events-auto z-10" : "opacity-100 pointer-events-none"
               }`}
           >
             {showOptions && <Options />}
