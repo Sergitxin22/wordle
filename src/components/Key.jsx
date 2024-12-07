@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { AppContext } from "../App";
+import { getTranslation } from '../i18n/translations';
+import { KEYS } from '../i18n/constants';
 
 function Key({ keyVal, bigKey, disabled, almost, correct }) {
   const { onSelectLetter, onEnter, disabledLetters, language } = useContext(AppContext);
@@ -14,7 +16,7 @@ function Key({ keyVal, bigKey, disabled, almost, correct }) {
   }
 
   const displayText = keyVal === "ENVIAR"
-    ? (language === "es" ? "ENVIAR" : language === "en" ? "SEND" : language === "eu" ? "BIDALI" : keyVal)
+    ? getTranslation(KEYS.SEND, language)
     : keyVal;
 
   const keyClasses = [

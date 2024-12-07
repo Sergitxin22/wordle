@@ -7,6 +7,8 @@ import GameOver from './components/GameOver';
 import Header from './components/Header';
 import Toast from './components/Toast';
 import Options from './components/Options';
+import { getTranslation } from './i18n/translations';
+import { KEYS } from './i18n/constants';
 
 export const AppContext = createContext();
 
@@ -190,7 +192,7 @@ function App() {
             className={`transition-opacity duration-300 ${showOptions ? "opacity-0 pointer-events-none" : "opacity-100"
               } flex flex-col flex-auto`}
           >
-            {showToast && <Toast message="La palabra no existe" onClose={() => setShowToast(false)} />}
+            {showToast && <Toast message={getTranslation(KEYS.WORD_NOT_FOUND, language)} onClose={() => setShowToast(false)} />}
             <main className="flex flex-auto justify-center items-center">
               <Board />
             </main>
