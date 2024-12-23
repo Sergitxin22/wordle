@@ -1,7 +1,7 @@
 {
-    "palabra": "nicho",
+    "palabra": "grafo",
     "acepciones": [
-        "1. m. Concavidad en el espesor de un muro, para colocar en ella una estatua, un jarrón u otra cosa.",
-        "2. m. Hueco practicado en un muro para alojar algo dentro, especialmente el que sirve para depositar cadáveres o sus cenizas en un cementerio."
+        "1. m. Ling. Unidad abstracta que comprende el conjunto de grafías de una letra.",
+        "2. m. Mat. Diagrama que representa mediante puntos y líneas las relaciones entre pares de elementos y que se usa para resolver problemas lógicos, topológicos y de cálculo combinatorio."
     ]
 }
