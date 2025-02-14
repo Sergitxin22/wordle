@@ -3,7 +3,7 @@ import { AppContext } from '../App'
 
 function Options() {
 
-    const { showOptions, setShowOptions, darkMode, toggleDarkMode } = useContext(AppContext);
+    const { showOptions, setShowOptions, darkMode, toggleDarkMode, gameMode, toggleGameMode } = useContext(AppContext);
 
     return (
         <div className="h-full w-full">
@@ -43,6 +43,16 @@ function Options() {
                         <div className="flex-initial form-check form-switch"><input
                             className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-no-repeat bg-contain bg-neutral-300 dark:bg-neutral-700 checked:dark:bg-blue-500 focus:outline-none cursor-pointer shadow-sm"
                             type="checkbox" role="switch" id="accessibilityMode" /></div>
+                    </div>
+                    <div className="flex py-5 border-b border-solid">
+                        <div className="flex flex-auto">
+                            <div className="flex flex-col">
+                                <p className="text-md">Activar modo ilimitado</p>
+                            </div>
+                        </div>
+                        <div className="flex-initial form-check form-switch"><input
+                            className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-no-repeat bg-contain bg-neutral-300 dark:bg-neutral-700 checked:dark:bg-blue-500 focus:outline-none cursor-pointer shadow-sm"
+                            type="checkbox" role="switch" id="gameMode" checked={gameMode} onChange={toggleGameMode} /></div>
                     </div>
                 </div>
                 <div className="flex-initial my-2">

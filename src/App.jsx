@@ -14,6 +14,7 @@ export const AppContext = createContext();
 
 function App() {
   const [language, setLanguage] = useState(localStorage.getItem('language') || "es");
+  const [gameMode, setGameMode] = useState(() => localStorage.getItem('unlimited') === 'true');
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [wordSet, setWordSet] = useState(new Set());
@@ -29,6 +30,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem('language', language); // Guarda el idioma actual en localStorage
   }, [language]);
+
   const [showOptions, setShowOptions] = useState(false);
   const [darkMode, setDarkMode] = useState(false); // Estado para el modo oscuro
 
@@ -82,23 +84,30 @@ function App() {
     });
   };
 
+  const toggleGameMode = () => {
+    setGameMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem('unlimited', newMode);
+      return newMode;
+    });
+  };
+
   useEffect(() => {
-    if (language) { // Asegúrate de que language no esté vacío
-      generateWordSet(language).then((words) => {
+    if (language && gameMode !== null) {
+      generateWordSet(language, gameMode).then((words) => {
         setWordSet(words.wordSet);
         setCorrectWord(words.todaysWord.toUpperCase());
         setWordDefinitions(words.todaysWordDefinitions);
 
-        // Reiniciar el estado del tablero y los intentos
         setBoard(boardDefault.map(row => [...row]));
-        setCurrAttempt({ attempt: 0, letterPos: 0 }); // Reinicia los intentos
-        setDisabledLetters([]); // Limpia las letras deshabilitadas
-        setCorrectLetters([]); // Limpia las letras correctas
-        setAlmostLetters([]); // Limpia las letras mal colocadas
-        setGameOver({ gameOver: false, guessedWord: false })
+        setCurrAttempt({ attempt: 0, letterPos: 0 });
+        setDisabledLetters([]);
+        setCorrectLetters([]);
+        setAlmostLetters([]);
+        setGameOver({ gameOver: false, guessedWord: false });
       });
     }
-  }, [language]); // language como dependencia, para ejecutar cuando cambie
+  }, [language, gameMode]); // 🔥 Ahora también depende de gameMode
 
   const [guessedLetterUsage, setGuessedLetterUsage] = useState({});
 
@@ -155,11 +164,14 @@ function App() {
 
   return (
     <div className="dark:bg-dark dark:text-neutral-100 text-black">
-      <div className="container mx-auto flex flex-col max-w-md h-dvh">
+      <div className="min-h-screen container mx-auto flex flex-col max-w-md">
         <AppContext.Provider
           value={{
             language,
             setLanguage,
+            gameMode,
+            setGameMode,
+            toggleGameMode,
             board,
             setBoard,
             currAttempt,
@@ -193,7 +205,7 @@ function App() {
               } flex flex-col flex-auto`}
           >
             {showToast && <Toast message={getTranslation(KEYS.WORD_NOT_FOUND, language)} onClose={() => setShowToast(false)} />}
-            <main className="flex flex-auto justify-center items-center">
+            <main className="flex flex-auto justify-center items-center px-[2rem] py-2">
               <Board />
             </main>
             {gameOver.gameOver ? <GameOver /> : <Keyboard />}

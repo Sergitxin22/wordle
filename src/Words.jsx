@@ -8,6 +8,11 @@ import spanishWords from './data/spanish/sin-tildes/5.json';
 import englishWords from './data/english/5.json';
 import basqueWords from './data/euskara/5.json';
 
+// Importaciones estáticas de palabras válidas con definiciones en distintos idiomas
+import spanishAllDefinitions from './data/spanish/sin-tildes/5-definiciones.json';
+import englishAllDefinitions from './data/english/5-definiciones.json';
+import basqueAllDefinitions from './data/euskara/5-definiciones.json';
+
 export const boardDefault = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
@@ -17,59 +22,48 @@ export const boardDefault = [
     ['', '', '', '', '']
 ]
 
-export const generateWordSet = async (language) => {
-    let wordSet
-    let todaysWord
-    let todaysWordDefinitions
+export const generateWordSet = async (language, gameMode) => {
+    // console.log(gameMode);
+    let wordSet;
+    let todaysWord;
+    let todaysWordDefinitions;
 
-    // Seleccionar el archivo JSON adecuado según el idioma
     let todaysWordJson;
+    let allDefinitions;
+
     switch (language) {
         case 'en':
             todaysWordJson = englishDefinitions;
+            wordSet = new Set(englishWords);
+            allDefinitions = englishAllDefinitions;
             break;
         case 'eu':
             todaysWordJson = basqueDefinitions;
+            wordSet = new Set(basqueWords);
+            allDefinitions = basqueAllDefinitions;
             break;
         case 'es':
         default:
             todaysWordJson = spanishDefinitions;
-            break;
-    }
-
-    // console.log(language);
-    // console.log(todaysWordJson);
-
-
-
-    // await fetch(wordBank)
-    //     .then((response) => response.text())
-    //     .then((result) => {
-    //         // Dividimos el resultado por las líneas y eliminamos los espacios innecesarios
-    //         const wordArr = result.split("\n").map(word => word.trim());
-    //         todaysWord = wordArr[Math.floor(Math.floor(Math.random() * wordArr.length))];
-    //         // Creamos un Set con las palabras ya limpiadas
-    //         wordSet = new Set(wordArr);
-    //     });
-    switch (language) {
-        case 'en':
-            wordSet = new Set(englishWords);
-            break;
-        case 'eu':
-            wordSet = new Set(basqueWords);
-            break;
-        case 'es':
-        default:
             wordSet = new Set(spanishWords);
+            allDefinitions = spanishAllDefinitions;
             break;
     }
 
-    todaysWord = todaysWordJson.palabra
-    wordSet.add(todaysWord)
+    if (gameMode) {
+        // Escoger una palabra aleatoria del archivo 5-definiciones.json
+        const randomIndex = Math.floor(Math.random() * allDefinitions.length);
+        todaysWord = allDefinitions[randomIndex].palabra;
+        todaysWordDefinitions = allDefinitions[randomIndex].acepciones;
+    } else {
+        // Usar la palabra fija del JSON
+        todaysWord = todaysWordJson.palabra;
+        todaysWordDefinitions = todaysWordJson.acepciones;
+    }
 
-    todaysWordDefinitions = todaysWordJson.acepciones
+    wordSet.add(todaysWord); // Asegurar que la palabra del día está en el conjunto
 
-    // console.log('hola:', { wordSet, todaysWord, todaysWordDefinitions });
+    // console.log(todaysWord);
 
-    return { wordSet, todaysWord, todaysWordDefinitions }
-}
+    return { wordSet, todaysWord, todaysWordDefinitions };
+};

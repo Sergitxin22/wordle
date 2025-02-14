@@ -6,7 +6,7 @@ function getNumOfOccurrencesInWord(word, letter) {
 }
 
 function Letter({ letterPos, attemptVal }) {
-  const { board, correctWord, currAttempt, disabledLetters, setDisabledLetters, correctLetters, setCorrectLetters, almostLetters, setAlmostLetters, language } = useContext(AppContext);
+  const { board, correctWord, currAttempt, disabledLetters, setDisabledLetters, correctLetters, setCorrectLetters, almostLetters, setAlmostLetters, language, gameMode } = useContext(AppContext);
   const letter = board[attemptVal][letterPos];
   const [letterState, setLetterState] = useState("");
   const [resetLetterClasses, setResetLetterClasses] = useState(false);
@@ -16,7 +16,7 @@ function Letter({ letterPos, attemptVal }) {
     if (language) {
       setResetLetterClasses(true); // Se activa el reset de clases cuando cambia el idioma
     }
-  }, [language]); // Dependiendo del cambio de idioma
+  }, [language, gameMode]); // Dependiendo del cambio de idioma
 
   useEffect(() => {
     if (resetLetterClasses) {
@@ -85,7 +85,7 @@ function Letter({ letterPos, attemptVal }) {
 
   // console.log(disabledLetters);
 
-  const baseClasses = "inline-flex justify-center items-center text-2xl tiny:text-4xl uppercase font-bold select-none border-2 border-neutral-300 dark:border-neutral-700";
+  const baseClasses = "w-full aspect-square flex justify-center items-center text-2xl tiny:text-4xl uppercase font-bold select-none border-2 border-neutral-300 dark:border-neutral-700";
   const letterClasses = letterState ? `text-white ${letterState} border-none` : baseClasses;
   const letterActiveClasses = letter ? `border-neutral-500 dark:border-neutral-600` : '';
 
