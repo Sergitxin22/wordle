@@ -1,9 +1,29 @@
 // This file will be loaded before the application and will provide environment variables
-window.__ENV__ = {
-  VITE_FIREBASE_API_KEY: 'AIzaSyAkHV6vrSil2EJp1B8ng6YGvSwkhTwpN8Y',
-  VITE_FIREBASE_AUTH_DOMAIN: 'wordle-d6fe7.firebaseapp.com',
-  VITE_FIREBASE_PROJECT_ID: 'wordle-d6fe7',
-  VITE_FIREBASE_STORAGE_BUCKET: 'wordle-d6fe7.firebasestorage.app',
-  VITE_FIREBASE_MESSAGING_SENDER_ID: '1078610634641',
-  VITE_FIREBASE_APP_ID: '1:1078610634641:web:a0c5cf820a4b46250f1c30',
-};
+// En producción, las variables se cargarán desde un endpoint seguro
+window.__ENV__ = window.__ENV__ || {};
+
+// Función para cargar las variables de entorno desde el servidor
+async function loadEnvVars() {
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    // En desarrollo local, usar valores por defecto o de desarrollo
+    return;
+  }
+  
+  try {
+    // En producción, cargar las variables de un archivo generado en tiempo de construcción
+    // Este archivo no será comprometido en Git
+    const response = await fetch('/env-vars.json');
+    if (response.ok) {
+      const envVars = await response.json();
+      window.__ENV__ = { ...window.__ENV__, ...envVars };
+      console.log('Variables de entorno cargadas correctamente');
+    } else {
+      console.error('Error al cargar las variables de entorno');
+    }
+  } catch (error) {
+    console.error('Error al cargar las variables de entorno:', error);
+  }
+}
+
+// Cargar las variables de entorno
+loadEnvVars();
