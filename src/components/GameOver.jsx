@@ -1,10 +1,25 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { AppContext } from '../App'
+import { UserService } from '../auth/UserService'
+import { useAuth } from '../auth/AuthProvider'
+import { UserStats } from './UserStats'
 
 function GameOver() {
-    const { gameOver, currAttempt, correctWord, wordDefinitions, gameMode, toggleGameMode } = useContext(AppContext)
+    const { gameOver, currAttempt, correctWord, wordDefinitions, gameMode, toggleGameMode, language } = useContext(AppContext)
+    const { session, status, configError } = useAuth();
 
-    // console.log('--------------------------', wordDefinitions);
+    // Registrar la completitud de la palabra cuando el juego termina (victoria o derrota)
+    useEffect(() => {
+        if (gameOver.gameOver && status === 'authenticated' && session?.user?.id && !gameMode) {
+            // Registrar el día completado en el perfil del usuario
+            UserService.registerCompletedDay(
+                session.user.id,
+                new Date(),
+                language,  // el idioma actual
+                currAttempt.attempt  // número de intentos
+            );
+        }
+    }, [gameOver.gameOver, status, session, language, currAttempt.attempt, gameMode]);
 
     return (
         <div className='px-5 py-5 mb-10 text-center'>
@@ -22,6 +37,14 @@ function GameOver() {
                     <h3 key={index} className='text-xl font-semibold leading-8'>{definition}</h3>
                 ))}
             </div>
+
+            {/* Mostrar estadísticas del usuario si está autenticado */}
+            {!configError && status === 'authenticated' && (
+                <div className="my-4">
+                    <UserStats />
+                </div>
+            )}
+
             {gameMode && (
                 <div className="flex justify-center gap-4 mt-5">
                     <button
@@ -39,6 +62,12 @@ function GameOver() {
                 </div>
             )}
 
+            {/* Si el usuario no está autenticado y Firebase está configurado, mostrar mensaje para incentivar el inicio de sesión */}
+            {!configError && status !== 'authenticated' && (
+                <div className="mt-4 p-3 bg-blue-100 dark:bg-blue-900 rounded-lg text-center">
+                    <p className="text-sm">Inicia sesión para guardar tus estadísticas y ver tu racha de palabras completadas.</p>
+                </div>
+            )}
         </div>
     )
 }

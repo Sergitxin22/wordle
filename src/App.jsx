@@ -9,6 +9,9 @@ import Toast from './components/Toast';
 import Options from './components/Options';
 import { getTranslation } from './i18n/translations';
 import { KEYS } from './i18n/constants';
+import { useAuth } from './auth/AuthProvider';
+import { UserService } from './auth/UserService';
+import AlreadyPlayed from './components/AlreadyPlayed';
 
 export const AppContext = createContext();
 
@@ -25,6 +28,10 @@ function App() {
   const [wordDefinitions, setWordDefinitions] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false });
   const [showToast, setShowToast] = useState(false);
+  const [hasAlreadyPlayed, setHasAlreadyPlayed] = useState(false);
+
+  // Obtener la información de autenticación
+  const { session, status } = useAuth();
 
   // Cambiar el idioma también cambia el idioma en localStorage
   useEffect(() => {
@@ -94,6 +101,14 @@ function App() {
 
   useEffect(() => {
     if (language && gameMode !== null) {
+      // Verificar si el usuario ya ha jugado la palabra del día (solo si está autenticado y no en modo ilimitado)
+      if (status === 'authenticated' && session?.user?.id && !gameMode) {
+        const alreadyPlayed = UserService.hasCompletedTodaysWord(session.user.id, language);
+        setHasAlreadyPlayed(alreadyPlayed);
+      } else {
+        setHasAlreadyPlayed(false);
+      }
+
       generateWordSet(language, gameMode).then((words) => {
         setWordSet(words.wordSet);
         setCorrectWord(words.todaysWord.toUpperCase());
@@ -107,7 +122,7 @@ function App() {
         setGameOver({ gameOver: false, guessedWord: false });
       });
     }
-  }, [language, gameMode]); // 🔥 Ahora también depende de gameMode
+  }, [language, gameMode, status, session?.user?.id, session?.user]); // Añadimos session?.user para que se dispare cuando cambia el estado de autenticación
 
   const [guessedLetterUsage, setGuessedLetterUsage] = useState({});
 
@@ -137,10 +152,6 @@ function App() {
       currWord += board[currAttempt.attempt][i]
     }
 
-    // console.log(currWord);
-    // console.log(wordSet);
-
-    // console.log({wordSet, currWord});
     if (wordSet.has(currWord.toLowerCase())) {
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
     } else {
@@ -152,13 +163,22 @@ function App() {
     }
 
     if (currWord === correctWord) {
-      setGameOver({ gameOver: true, guessedWord: true })
-      return
+      // Registrar el juego completado si el usuario está autenticado
+      if (status === 'authenticated' && session?.user?.id && !gameMode) {
+        UserService.registerCompletedDay(
+          session.user.id,
+          new Date(),
+          language,
+          currAttempt.attempt + 1
+        );
+      }
+      setGameOver({ gameOver: true, guessedWord: true });
+      return;
     }
 
     if (currAttempt.attempt === 5) {
-      setGameOver({ gameOver: true, guessedWord: false })
-      return
+      setGameOver({ gameOver: true, guessedWord: false });
+      return;
     }
   }
 
@@ -206,9 +226,20 @@ function App() {
           >
             {showToast && <Toast message={getTranslation(KEYS.WORD_NOT_FOUND, language)} onClose={() => setShowToast(false)} />}
             <main className="flex flex-auto justify-center items-center px-[2rem] py-2">
-              <Board />
+              {/* Mostrar AlreadyPlayed cuando el usuario ya ha jugado la palabra del día */}
+              {!gameMode && hasAlreadyPlayed ? (
+                <AlreadyPlayed />
+              ) : (
+                <Board />
+              )}
             </main>
-            {gameOver.gameOver ? <GameOver /> : <Keyboard />}
+            {!gameMode && hasAlreadyPlayed ? (
+              null // No mostrar teclado si ya jugó
+            ) : gameOver.gameOver ? (
+              <GameOver />
+            ) : (
+              <Keyboard />
+            )}
           </div>
 
           {/* Mostrar Options sobre el resto del contenido */}

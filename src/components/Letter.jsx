@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
+import { useAuth } from '../auth/AuthProvider';
 
 function getNumOfOccurrencesInWord(word, letter) {
   return word.split("").filter((l) => l === letter).length;
@@ -7,16 +8,15 @@ function getNumOfOccurrencesInWord(word, letter) {
 
 function Letter({ letterPos, attemptVal }) {
   const { board, correctWord, currAttempt, disabledLetters, setDisabledLetters, correctLetters, setCorrectLetters, almostLetters, setAlmostLetters, language, gameMode } = useContext(AppContext);
+  const { status } = useAuth();
   const letter = board[attemptVal][letterPos];
   const [letterState, setLetterState] = useState("");
   const [resetLetterClasses, setResetLetterClasses] = useState(false);
 
   useEffect(() => {
-    // Si el idioma cambia, restablecer las clases de las letras
-    if (language) {
-      setResetLetterClasses(true); // Se activa el reset de clases cuando cambia el idioma
-    }
-  }, [language, gameMode]); // Dependiendo del cambio de idioma
+    // Si el idioma cambia o cambia el estado de autenticación, restablecer las clases de las letras
+    setResetLetterClasses(true);
+  }, [language, gameMode, status]); // Añadimos status a las dependencias
 
   useEffect(() => {
     if (resetLetterClasses) {
