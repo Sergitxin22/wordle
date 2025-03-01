@@ -7,4 +7,8 @@ export const KEYS = {
     ACCESSIBILITY_MODE: 'accessibilityMode',
     ACCESSIBILITY_MODE_DESCRIPTION: 'accessibilityModeDescription',
     UNLIMITED_MODE: 'unlimitedMode',
+    ALREADY_PLAYED_TITLE: 'alreadyPlayedTitle',
+    ALREADY_PLAYED_MESSAGE: 'alreadyPlayedMessage',
+    PLAY_UNLIMITED_MODE: 'playUnlimitedMode',
+    COME_TOMORROW: 'comeTomorrow',
 };
