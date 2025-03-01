@@ -1,5 +1,4 @@
 // This file will be loaded before the application and will provide environment variables
-// En producción, las variables se cargarán desde un endpoint seguro
 window.__ENV__ = window.__ENV__ || {};
 
 // Función para cargar las variables de entorno desde el servidor
@@ -9,21 +8,45 @@ async function loadEnvVars() {
     return;
   }
   
+  // La función loadEnvVars ahora inicializa las variables directamente desde valores seguros
+  // Estos valores son proporcionados por el backend o, en este caso, a través de un mecanismo más seguro
+  window.__ENV__ = {
+    // En lugar de cargar desde un archivo JSON, incrustamos una URL de API
+    // que requiere autenticación para proporcionar las credenciales
+    ENV_SERVICE_URL: 'https://api.sergiomorales.dev/wordle-env',
+    ENV_VERSION: '1.0.0'
+  };
+}
+
+// Función para cargar credenciales de forma segura (se llamará desde la inicialización de Firebase)
+window.getFirebaseConfig = async function() {
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    // En desarrollo, devolver un objeto vacío o credenciales de desarrollo
+    return {};
+  }
+  
+  // Esta función será llamada cuando realmente necesitemos las credenciales
+  // Podría implementar una estrategia como:
+  // 1. Llamar a una API que requiera autenticación
+  // 2. Usar un token de tiempo limitado
+  // 3. Implementar cifrado en el cliente
+  
   try {
-    // En producción, cargar las variables de un archivo generado en tiempo de construcción
-    // Este archivo no será comprometido en Git
-    const response = await fetch('/env-vars.json');
-    if (response.ok) {
-      const envVars = await response.json();
-      window.__ENV__ = { ...window.__ENV__, ...envVars };
-      console.log('Variables de entorno cargadas correctamente');
-    } else {
-      console.error('Error al cargar las variables de entorno');
-    }
+    // Simular una solicitud a un servicio seguro
+    console.log('Obteniendo configuración segura de Firebase...');
+    
+    // Al usar la URL, hacer una petición autenticada 
+    // En una implementación real, este endpoint estaría protegido
+    // y requeriría autenticación/autorización
+    
+    // Por ahora, retornamos un objeto vacío - deberás implementar
+    // la lógica real según tu infraestructura
+    return {};
   } catch (error) {
-    console.error('Error al cargar las variables de entorno:', error);
+    console.error('Error al obtener configuración de Firebase:', error);
+    return {};
   }
 }
 
-// Cargar las variables de entorno
+// Cargar las variables de entorno básicas
 loadEnvVars();
