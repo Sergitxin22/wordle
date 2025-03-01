@@ -8,6 +8,10 @@ const translations = {
         accessibilityMode: "Activar accesibilidad",
         accessibilityModeDescription: "Al pinchar la letra explica la situación.",
         unlimitedMode: "Activar modo ilimitado",
+        alreadyPlayedTitle: "¡Ya has jugado hoy!",
+        alreadyPlayedMessage: "Ya has adivinado la palabra del día en este idioma.",
+        playUnlimitedMode: "Jugar en modo ilimitado",
+        comeTomorrow: "Vuelve mañana para una nueva palabra.",
     },
     en: {
         wordNotFound: "The word does not exist",
@@ -18,6 +22,10 @@ const translations = {
         accessibilityMode: "Activate accessibility",
         accessibilityModeDescription: "When clicking on the letter, it explains the situation.",
         unlimitedMode: "Activate unlimited mode",
+        alreadyPlayedTitle: "You've already played today!",
+        alreadyPlayedMessage: "You have already guessed today's word in this language.",
+        playUnlimitedMode: "Play in unlimited mode",
+        comeTomorrow: "Come back tomorrow for a new word.",
     },
     eu: {
         wordNotFound: "Hitza ez da existitzen",
@@ -28,6 +36,10 @@ const translations = {
         accessibilityMode: "Aktibatu irisgarritasuna",
         accessibilityModeDescription: "Letra sakatzean egoera azaltzen du.",
         unlimitedMode: "Aktibatu modu mugagabea",
+        alreadyPlayedTitle: "Dagoeneko jokatu duzu gaur!",
+        alreadyPlayedMessage: "Dagoeneko asmatu duzu gaurko hitza hizkuntza honetan.",
+        playUnlimitedMode: "Jokatu modu mugagabean",
+        comeTomorrow: "Itzuli bihar hitz berri baterako.",
     },
 };
 
@@ -36,4 +48,4 @@ export const getTranslation = (key, language = 'es') => {
     return translations[language]?.[key] || key; // Si no existe la traducción, se usa la clave como texto por defecto
 };
 
-export default translations;  
+export default translations;
