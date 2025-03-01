@@ -1,13 +1,13 @@
 // Configuración cifrada de Firebase (generada automáticamente)
 (function() {
   // Datos cifrados de Firebase
-  const encryptedData = "023e26285106364a9fbf308718ce7ca2:2bdf3d15a99a04715300cdf424a2c961d6b3f583c35e79eae06394a63ba6080770984ecb66109ae7e6f6b3d1225eba495e1d3d8d2bc1cc371afcab399761557cf0a453cfd66d2d464be3a9eb379f3dc85c0a1c791bc3e242333f47968f5389c9c2a09a0e09eccd995992b1aec9546adf";
+  const encryptedData = "bbefb838789061d33532e9f91d6a7f14:faa3f2b1eac871db26417893b351ad1f7407a81333702a2926c55bf42075c24d824063177c22a3ed3902ba3322847baaac49d516c5e2065de92019dee18bef794abeb9b16f91a341a1323516c3bc452196e729af19588cba891be142b034f5ea06a5748491b86200a07108bd51886908";
   
   // Función para descifrar los datos (se ejecuta solo cuando se necesita)
   window.getFirebaseConfig = async function() {
     try {
       // Clave de compilación incrustada en el código (suficiente para este caso de uso)
-      const buildKey = "22c46aa4c14ccb8c";
+      const buildKey = "88696cd280b74d04";
       
       // Separar el IV y los datos cifrados
       const [ivHex, encryptedHex] = encryptedData.split(':');
