@@ -8,29 +8,14 @@ import {
   GithubAuthProvider, 
   signOut as firebaseSignOut 
 } from 'firebase/auth';
-import { firebaseConfig } from './firebaseConfig';
+import { getFirebaseConfiguration } from './firebaseConfig';
 
-// Verificar si las credenciales de Firebase están configuradas
-const isFirebaseConfigured = Object.values(firebaseConfig).every(value => 
-  value && value !== 'tu-api-key' && !value.includes('tu-proyecto')
-);
-
-// Inicializar Firebase solo si está configurado correctamente
+// Variables para inicialización de Firebase
 let app;
 let auth;
 let googleProvider;
 let githubProvider;
-
-if (isFirebaseConfigured) {
-  try {
-    app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-    googleProvider = new GoogleAuthProvider();
-    githubProvider = new GithubAuthProvider();
-  } catch (error) {
-    console.error("Error al inicializar Firebase:", error);
-  }
-}
+let firebaseInitialized = false;
 
 // Crear contexto
 const AuthContext = createContext(null);
@@ -47,26 +32,53 @@ export const useAuth = () => {
 export function AuthProviderWrapper({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [configError] = useState(!isFirebaseConfigured);
+  const [configError, setConfigError] = useState(false);
 
-  // Escuchar cambios en el estado de autenticación
+  // Inicializar Firebase de forma asíncrona
   useEffect(() => {
-    if (!isFirebaseConfigured) {
-      setLoading(false);
-      return;
-    }
+    const initFirebase = async () => {
+      try {
+        // Obtener la configuración de Firebase dinámicamente
+        const firebaseConfig = await getFirebaseConfiguration();
+        
+        // Verificar si las credenciales son válidas
+        const isFirebaseConfigured = Object.values(firebaseConfig).every(value => 
+          value && value !== 'tu-api-key' && !value.includes('tu-proyecto')
+        );
 
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
+        if (!isFirebaseConfigured) {
+          setConfigError(true);
+          setLoading(false);
+          return;
+        }
 
-    return () => unsubscribe?.();
+        // Inicializar Firebase solo si no se ha inicializado antes
+        if (!firebaseInitialized) {
+          app = initializeApp(firebaseConfig);
+          auth = getAuth(app);
+          googleProvider = new GoogleAuthProvider();
+          githubProvider = new GithubAuthProvider();
+          firebaseInitialized = true;
+
+          // Escuchar cambios en el estado de autenticación
+          onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setLoading(false);
+          });
+        }
+      } catch (error) {
+        console.error("Error al inicializar Firebase:", error);
+        setConfigError(true);
+        setLoading(false);
+      }
+    };
+
+    initFirebase();
   }, []);
 
   // Función para iniciar sesión con Google
   const signInWithGoogle = async () => {
-    if (!isFirebaseConfigured) {
+    if (!firebaseInitialized) {
       console.warn("Firebase no está configurado correctamente. Consulta las instrucciones de configuración.");
       return;
     }
@@ -80,7 +92,7 @@ export function AuthProviderWrapper({ children }) {
 
   // Función para iniciar sesión con GitHub
   const signInWithGithub = async () => {
-    if (!isFirebaseConfigured) {
+    if (!firebaseInitialized) {
       console.warn("Firebase no está configurado correctamente. Consulta las instrucciones de configuración.");
       return;
     }
@@ -94,7 +106,7 @@ export function AuthProviderWrapper({ children }) {
 
   // Función para cerrar sesión
   const signOut = async () => {
-    if (!isFirebaseConfigured) return;
+    if (!firebaseInitialized) return;
     
     try {
       await firebaseSignOut(auth);
