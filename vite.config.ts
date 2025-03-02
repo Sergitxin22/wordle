@@ -1,9 +1,46 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { obfuscator } from 'rollup-obfuscator'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    obfuscator({
+      // Opciones avanzadas de ofuscación
+      // Estas configuraciones hacen que el código sea extremadamente difícil de leer
+      compact: true,
+      controlFlowFlattening: true,
+      controlFlowFlatteningThreshold: 1,
+      deadCodeInjection: true,
+      deadCodeInjectionThreshold: 1,
+      debugProtection: true,
+      debugProtectionInterval: 1000, // Cambiado de un booleano a un número (milisegundos)
+      disableConsoleOutput: true,
+      identifierNamesGenerator: 'hexadecimal',
+      log: false,
+      numbersToExpressions: true,
+      renameGlobals: false,
+      selfDefending: true,
+      simplify: true,
+      splitStrings: true,
+      splitStringsChunkLength: 5,
+      stringArray: true,
+      stringArrayCallsTransform: true,
+      stringArrayCallsTransformThreshold: 1,
+      stringArrayEncoding: ['rc4'],
+      stringArrayIndexShift: true,
+      stringArrayRotate: true,
+      stringArrayShuffle: true,
+      stringArrayWrappersCount: 5,
+      stringArrayWrappersChainedCalls: true,
+      stringArrayWrappersParametersMaxCount: 5,
+      stringArrayWrappersType: 'function',
+      stringArrayThreshold: 1,
+      transformObjectKeys: true,
+      unicodeEscapeSequence: false
+    })
+  ],
   base: './', // Esto asegura que se usen rutas relativas
   build: {
     outDir: 'docs', // Configura la salida del build en la carpeta 'docs'
