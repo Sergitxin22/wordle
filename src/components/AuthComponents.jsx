@@ -5,14 +5,30 @@ export function LoginButton() {
   const { signInWithGoogle, signInWithGithub, status, configError } = useAuth();
   const isLoading = status === 'loading';
 
-  if (configError) {
+  if (isLoading) {
     return (
-      <button 
-        onClick={() => alert("Firebase no está configurado. Revisa la consola para ver las instrucciones.")}
-        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded text-sm"
-      >
-        Configurar
-      </button>
+      <div className="text-sm py-1 px-3">
+        Cargando...
+      </div>
+    );
+  }
+
+  if (configError) {
+    // Intentar reconectar con Firebase si hay un error de configuración
+    const tryReconnect = () => {
+      // Recargamos la página para intentar reiniciar la conexión
+      window.location.reload();
+    };
+
+    return (
+      <div className="flex flex-wrap gap-2">
+        <button 
+          onClick={tryReconnect}
+          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded text-sm"
+        >
+          Reintentar conexión
+        </button>
+      </div>
     );
   }
 

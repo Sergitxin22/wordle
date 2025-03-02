@@ -14,14 +14,14 @@ export default defineConfig({
       controlFlowFlatteningThreshold: 1,
       deadCodeInjection: true,
       deadCodeInjectionThreshold: 1,
-      debugProtection: true,
-      debugProtectionInterval: 1000, // Cambiado de un booleano a un número (milisegundos)
+      debugProtection: false, // Desactivado para evitar problemas de bloqueo
+      debugProtectionInterval: 0, // Valor 0 para desactivarlo (debe ser un número)
       disableConsoleOutput: true,
       identifierNamesGenerator: 'hexadecimal',
       log: false,
       numbersToExpressions: true,
       renameGlobals: false,
-      selfDefending: true,
+      selfDefending: false, // También desactivamos esto que puede causar problemas similares
       simplify: true,
       splitStrings: true,
       splitStringsChunkLength: 5,
@@ -79,7 +79,6 @@ export default defineConfig({
     keepNames: false, // No mantener nombres para máxima minificación
     legalComments: 'none', // No incluir comentarios legales
     pure: ['console.debug', 'console.log', 'console.info'], // Considera estas funciones como puras y podrían eliminarse
-    // Define opciones específicas para ofuscación adicional
     charset: 'utf8',
     ignoreAnnotations: true, // Ignorar comentarios de anotación que podrían evitar minificación
     color: false, // Desactivar colores en la salida para reducir tamaño

@@ -43,10 +43,11 @@ export function AuthProviderWrapper({ children }) {
         
         // Verificar si las credenciales son válidas
         const isFirebaseConfigured = Object.values(firebaseConfig).every(value => 
-          value && value !== 'tu-api-key' && !value.includes('tu-proyecto')
+          value && typeof value === 'string' && value.length > 0
         );
 
         if (!isFirebaseConfigured) {
+          console.warn("Firebase no está configurado correctamente. Credenciales inválidas o vacías.");
           setConfigError(true);
           setLoading(false);
           return;
@@ -54,20 +55,26 @@ export function AuthProviderWrapper({ children }) {
 
         // Inicializar Firebase solo si no se ha inicializado antes
         if (!firebaseInitialized) {
-          app = initializeApp(firebaseConfig);
-          auth = getAuth(app);
-          googleProvider = new GoogleAuthProvider();
-          githubProvider = new GithubAuthProvider();
-          firebaseInitialized = true;
+          try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            googleProvider = new GoogleAuthProvider();
+            githubProvider = new GithubAuthProvider();
+            firebaseInitialized = true;
 
-          // Escuchar cambios en el estado de autenticación
-          onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+            // Escuchar cambios en el estado de autenticación
+            onAuthStateChanged(auth, (currentUser) => {
+              setUser(currentUser);
+              setLoading(false);
+            });
+          } catch (initError) {
+            console.error("Error al inicializar Firebase:", initError);
+            setConfigError(true);
             setLoading(false);
-          });
+          }
         }
       } catch (error) {
-        console.error("Error al inicializar Firebase:", error);
+        console.error("Error al obtener la configuración de Firebase:", error);
         setConfigError(true);
         setLoading(false);
       }
@@ -79,7 +86,7 @@ export function AuthProviderWrapper({ children }) {
   // Función para iniciar sesión con Google
   const signInWithGoogle = async () => {
     if (!firebaseInitialized) {
-      console.warn("Firebase no está configurado correctamente. Consulta las instrucciones de configuración.");
+      console.warn("Firebase no está configurado correctamente.");
       return;
     }
     
@@ -87,13 +94,15 @@ export function AuthProviderWrapper({ children }) {
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error("Error al iniciar sesión con Google:", error);
+      // Mostrar un mensaje de error al usuario
+      alert("Error al iniciar sesión con Google. Por favor intenta de nuevo.");
     }
   };
 
   // Función para iniciar sesión con GitHub
   const signInWithGithub = async () => {
     if (!firebaseInitialized) {
-      console.warn("Firebase no está configurado correctamente. Consulta las instrucciones de configuración.");
+      console.warn("Firebase no está configurado correctamente.");
       return;
     }
     
@@ -101,6 +110,8 @@ export function AuthProviderWrapper({ children }) {
       await signInWithPopup(auth, githubProvider);
     } catch (error) {
       console.error("Error al iniciar sesión con GitHub:", error);
+      // Mostrar un mensaje de error al usuario
+      alert("Error al iniciar sesión con GitHub. Por favor intenta de nuevo.");
     }
   };
 
@@ -112,6 +123,7 @@ export function AuthProviderWrapper({ children }) {
       await firebaseSignOut(auth);
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
+      alert("Error al cerrar sesión. Por favor intenta de nuevo.");
     }
   };
 
