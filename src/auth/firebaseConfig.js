@@ -1,4 +1,5 @@
-// Configuración de Firebase simplificada para GitHub Pages
+// Configuración de Firebase usando variables de entorno
+// en lugar de credenciales hardcodeadas
 
 // Función para obtener credenciales dinámicamente
 export const getFirebaseConfiguration = async () => {
@@ -27,14 +28,14 @@ export const getFirebaseConfiguration = async () => {
       return generateEmptyConfig();
     }
     
-    // Usamos las credenciales directamente para simplificar y evitar problemas
+    // Usamos las variables de entorno que se incluyen durante el build por GitHub Actions
     return {
-      apiKey: "AIzaSyDGHOq1Ikgq57_w7h9S9iZP4AiOyRWKrPQ",
-      authDomain: "wordle-63088.firebaseapp.com",
-      projectId: "wordle-63088",
-      storageBucket: "wordle-63088.firebasestorage.app",
-      messagingSenderId: "908345573894",
-      appId: "1:908345573894:web:671a9e75f83d7c22b9f987"
+      apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
+      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
+      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || '',
+      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
+      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
+      appId: import.meta.env.VITE_FIREBASE_APP_ID || ''
     };
   } catch (error) {
     console.error('Error obteniendo configuración de Firebase:', error);
