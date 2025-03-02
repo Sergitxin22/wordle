@@ -1,17 +1,16 @@
 {
   "rules": {
+    ".read": false,
+    ".write": false,
     "users": {
       "$uid": {
-        // Solo permitir acceso a usuarios autenticados y solo a sus propios datos
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid",
-        // Validación de datos
-        ".validate": "newData.hasChildren(['userId', 'completedDays', 'streak', 'lastCompleted', 'streaksByLanguage'])",
         "userId": {
           ".validate": "newData.val() === auth.uid"
         },
         "completedDays": {
-          ".validate": "newData.isArray()"
+          ".validate": "newData.hasChildren()"
         },
         "streak": {
           ".validate": "newData.isNumber()"

@@ -11,7 +11,6 @@ export const getFirebaseConfiguration = async () => {
     
     // Lista de dominios permitidos para esta aplicación
     const allowedDomains = [
-      'sergio890.github.io',
       'wordle.sergiomorales.dev',
       'localhost',
       '127.0.0.1'
@@ -32,6 +31,7 @@ export const getFirebaseConfiguration = async () => {
     return {
       apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
       authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
+      databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL || '',
       projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || '',
       storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
       messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
@@ -48,6 +48,7 @@ function generateEmptyConfig() {
   return {
     apiKey: "",
     authDomain: "",
+    databaseURL: "",
     projectId: "",
     storageBucket: "",
     messagingSenderId: "",

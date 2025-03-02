@@ -14,21 +14,40 @@ export const UserService = {
     
     try {
       const snapshot = await get(this.getDbRef(userId));
-      if (snapshot.exists()) {
-        return snapshot.val();
+      let profile = snapshot.exists() ? snapshot.val() : null;
+      
+      // Si existe el perfil pero le faltan campos, los inicializamos
+      if (profile) {
+        const defaultFields = {
+          userId,
+          completedDays: {},
+          streak: profile.streak || 0,
+          lastCompleted: profile.lastCompleted || null,
+          streaksByLanguage: profile.streaksByLanguage || {}
+        };
+        
+        // Actualizar solo los campos que faltan
+        profile = {
+          ...defaultFields,
+          ...profile,
+          completedDays: profile.completedDays || {}
+        };
+        
+        // Guardar el perfil actualizado
+        await this.saveUserProfile(userId, profile);
+      } else {
+        // Si no existe, crear un nuevo perfil
+        profile = {
+          userId,
+          completedDays: {},
+          streak: 0,
+          lastCompleted: null,
+          streaksByLanguage: {}
+        };
+        await this.saveUserProfile(userId, profile);
       }
       
-      // Si no existe, crear un nuevo perfil
-      const newProfile = {
-        userId,
-        completedDays: [],
-        streak: 0,
-        lastCompleted: null,
-        streaksByLanguage: {}
-      };
-      
-      await this.saveUserProfile(userId, newProfile);
-      return newProfile;
+      return profile;
     } catch (error) {
       console.error('Error al obtener el perfil:', error);
       return null;
@@ -56,42 +75,43 @@ export const UserService = {
       const profile = await this.getUserProfile(userId);
       if (!profile) return null;
 
-      const dateStr = date.toISOString().split('T')[0];
+      // Usar la fecha local del usuario
+      const dateStr = date.getFullYear() + '-' + 
+        String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+        String(date.getDate()).padStart(2, '0');
       
-      // Asegurarse de que completedDays es un array
-      if (!Array.isArray(profile.completedDays)) {
-        profile.completedDays = [];
+      // Asegurarse de que completedDays es un objeto
+      if (!profile.completedDays) {
+        profile.completedDays = {};
       }
       
-      // Verificar si ya completó este día
-      const existingIndex = profile.completedDays.findIndex(
-        day => day.date === dateStr && day.language === language
-      );
+      // Registrar el día completado usando una clave única
+      const dayKey = `${dateStr}_${language}`;
+      profile.completedDays[dayKey] = {
+        date: dateStr,
+        language,
+        attempts
+      };
       
-      if (existingIndex >= 0) {
-        profile.completedDays[existingIndex] = {
-          ...profile.completedDays[existingIndex],
-          attempts
-        };
-      } else {
-        profile.completedDays.push({
-          date: dateStr,
-          language,
-          attempts
-        });
-      }
+      // Actualizar racha general usando fechas locales
+      const today = new Date();
+      const todayStr = today.getFullYear() + '-' + 
+        String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+        String(today.getDate()).padStart(2, '0');
+        
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.getFullYear() + '-' + 
+        String(yesterday.getMonth() + 1).padStart(2, '0') + '-' + 
+        String(yesterday.getDate()).padStart(2, '0');
       
-      // Actualizar racha general
-      const today = new Date().toISOString().split('T')[0];
-      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-      
-      if (dateStr === today) {
-        if (profile.lastCompleted === yesterday) {
+      if (dateStr === todayStr) {
+        if (profile.lastCompleted === yesterdayStr) {
           profile.streak += 1;
-        } else if (profile.lastCompleted !== today) {
+        } else if (profile.lastCompleted !== todayStr) {
           profile.streak = 1;
         }
-        profile.lastCompleted = today;
+        profile.lastCompleted = todayStr;
         
         // Inicializar o actualizar las rachas por idioma
         if (!profile.streaksByLanguage) {
@@ -106,12 +126,12 @@ export const UserService = {
         }
         
         // Actualizar racha por idioma
-        if (profile.streaksByLanguage[language].lastCompleted === yesterday) {
+        if (profile.streaksByLanguage[language].lastCompleted === yesterdayStr) {
           profile.streaksByLanguage[language].current += 1;
-        } else if (profile.streaksByLanguage[language].lastCompleted !== today) {
+        } else if (profile.streaksByLanguage[language].lastCompleted !== todayStr) {
           profile.streaksByLanguage[language].current = 1;
         }
-        profile.streaksByLanguage[language].lastCompleted = today;
+        profile.streaksByLanguage[language].lastCompleted = todayStr;
       }
       
       // Guardar cambios en Firebase
@@ -129,15 +149,19 @@ export const UserService = {
     
     try {
       const profile = await this.getUserProfile(userId);
-      if (!profile || !profile.completedDays || profile.completedDays.length === 0) {
+      if (!profile || !profile.completedDays) {
         return false;
       }
       
-      const today = new Date().toISOString().split('T')[0];
+      // Usar la fecha local del usuario
+      const today = new Date();
+      const todayStr = today.getFullYear() + '-' + 
+        String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+        String(today.getDate()).padStart(2, '0');
       
-      return profile.completedDays.some(
-        day => day.date === today && day.language === language
-      );
+      const dayKey = `${todayStr}_${language}`;
+      
+      return profile.completedDays && profile.completedDays.hasOwnProperty(dayKey);
     } catch (error) {
       console.error('Error al verificar palabra completada:', error);
       return false;
@@ -158,11 +182,12 @@ export const UserService = {
         };
       }
 
-      const byLanguage = this.getStatsByLanguage(profile.completedDays);
+      const completedDaysArray = Object.values(profile.completedDays);
+      const byLanguage = this.getStatsByLanguage(completedDaysArray);
       
       // Calcular correctamente las rachas por idioma
-      if (profile.completedDays.length > 0) {
-        const sortedDays = [...profile.completedDays].sort((a, b) => 
+      if (completedDaysArray.length > 0) {
+        const sortedDays = [...completedDaysArray].sort((a, b) => 
           new Date(b.date) - new Date(a.date)
         );
         
@@ -207,7 +232,7 @@ export const UserService = {
       }
       
       return {
-        totalCompleted: profile.completedDays.length,
+        totalCompleted: completedDaysArray.length,
         streak: profile.streak,
         byLanguage
       };
@@ -218,10 +243,10 @@ export const UserService = {
   },
 
   // Agrupar estadísticas por idioma
-  getStatsByLanguage(completedDays) {
-    if (!Array.isArray(completedDays)) return {};
+  getStatsByLanguage(completedDaysArray) {
+    if (!Array.isArray(completedDaysArray)) return {};
     
-    return completedDays.reduce((stats, day) => {
+    return completedDaysArray.reduce((stats, day) => {
       if (!stats[day.language]) {
         stats[day.language] = { 
           count: 0, 

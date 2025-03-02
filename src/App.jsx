@@ -103,8 +103,14 @@ function App() {
     if (language && gameMode !== null) {
       // Verificar si el usuario ya ha jugado la palabra del día (solo si está autenticado y no en modo ilimitado)
       if (status === 'authenticated' && session?.user?.id && !gameMode) {
-        const alreadyPlayed = UserService.hasCompletedTodaysWord(session.user.id, language);
-        setHasAlreadyPlayed(alreadyPlayed);
+        UserService.hasCompletedTodaysWord(session.user.id, language)
+          .then(alreadyPlayed => {
+            setHasAlreadyPlayed(alreadyPlayed);
+          })
+          .catch(error => {
+            console.error('Error al verificar si ya jugó:', error);
+            setHasAlreadyPlayed(false);
+          });
       } else {
         setHasAlreadyPlayed(false);
       }
