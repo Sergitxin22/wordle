@@ -1,6 +1,8 @@
 name: Construir el proyecto y desplegar en GitHub Pages
 
 on:
+    push:
+      branches: [ main ]
     workflow_run:
       workflows: ["Seleccionar palabra para Wordle"]
       types:
