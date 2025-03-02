@@ -5,19 +5,52 @@ import { UserService } from '../auth/UserService';
 export function UserStats() {
   const { session, status } = useAuth();
   const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificamos que el usuario esté autenticado y que tenga un ID
-    if (status === 'authenticated' && session?.user?.id) {
-      const userStats = UserService.getUserStats(session.user.id);
-      setStats(userStats);
-    } else {
-      setStats(null);
-    }
+    let unsubscribe = () => {};
+
+    const loadStats = async () => {
+      if (status === 'authenticated' && session?.user?.id) {
+        try {
+          // Carga inicial de estadísticas
+          const initialStats = await UserService.getUserStats(session.user.id);
+          setStats(initialStats);
+          
+          // Suscribirse a actualizaciones en tiempo real
+          unsubscribe = UserService.subscribeToUserProfile(session.user.id, async (profile) => {
+            if (profile) {
+              const updatedStats = await UserService.getUserStats(session.user.id);
+              setStats(updatedStats);
+            }
+          });
+        } catch (error) {
+          console.error('Error al cargar estadísticas:', error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setStats(null);
+        setLoading(false);
+      }
+    };
+
+    loadStats();
+
+    // Limpiar suscripción al desmontar
+    return () => unsubscribe();
   }, [status, session]);
 
-  if (status !== 'authenticated' || !stats) {
+  if (status !== 'authenticated' || loading) {
     return null;
+  }
+
+  if (!stats) {
+    return (
+      <div className="p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <p className="text-center text-gray-500 dark:text-gray-400">No hay estadísticas disponibles</p>
+      </div>
+    );
   }
 
   return (
