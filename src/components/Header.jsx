@@ -128,7 +128,10 @@ function Header() {
             </div>
 
             {/* // En el JSX de tu componente: */}
-            <select onChange={(e) => handleChangeLanguage(e.target.value)} value={language} className="text-black dark:text-white dark:bg-[#121212] self-center">
+            <label htmlFor="language-select" className="sr-only">
+                Selecciona un idioma
+            </label>
+            <select id="language-select" onChange={(e) => handleChangeLanguage(e.target.value)} value={language} className="text-black dark:text-white dark:bg-[#121212] self-center">
                 <option value="es" className="text-black dark:text-white">Español</option>
                 <option value="en" className="text-black dark:text-white">English</option>
                 <option value="eu" className="text-black dark:text-white">Euskara</option>
