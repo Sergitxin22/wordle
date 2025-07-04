@@ -270,7 +270,3 @@ if __name__ == '__main__':
     # Ejecutar el script completo directamente
     print("Iniciando procesamiento de todas las palabras gallegas...")
     main()
-
-# Descomenta para probar palabras específicas
-# print(acepciones('varga'))
-# print(acepciones('abaca'))
