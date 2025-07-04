@@ -2,16 +2,19 @@
 import spanishDefinitions from './data/hoy/5/spanish/definiciones.json';
 import englishDefinitions from './data/hoy/5/english/definiciones.json';
 import basqueDefinitions from './data/hoy/5/euskara/definiciones.json';
+import galegoDefinitions from './data/hoy/5/galego/definiciones.json';
 
 // Importaciones estáticas de palabras válidas en distintos idiomas
 import spanishWords from './data/spanish/sin-tildes/5.json';
 import englishWords from './data/english/5.json';
 import basqueWords from './data/euskara/5.json';
+import galegoWords from './data/galego/5.json';
 
 // Importaciones estáticas de palabras válidas con definiciones en distintos idiomas
 import spanishAllDefinitions from './data/spanish/sin-tildes/5-definiciones.json';
 import englishAllDefinitions from './data/english/5-definiciones.json';
 import basqueAllDefinitions from './data/euskara/5-definiciones.json';
+import galegoAllDefinitions from './data/galego/5-definiciones.json';
 
 export const boardDefault = [
     ['', '', '', '', ''],
@@ -41,6 +44,11 @@ export const generateWordSet = async (language, gameMode) => {
             todaysWordJson = basqueDefinitions;
             wordSet = new Set(basqueWords);
             allDefinitions = basqueAllDefinitions;
+            break;
+        case 'gl':
+            todaysWordJson = galegoDefinitions;
+            wordSet = new Set(galegoWords);
+            allDefinitions = galegoAllDefinitions;
             break;
         case 'es':
         default:

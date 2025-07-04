@@ -41,6 +41,20 @@ const translations = {
         playUnlimitedMode: "Jokatu modu mugagabean",
         comeTomorrow: "Itzuli bihar hitz berri baterako.",
     },
+    gl: {
+        wordNotFound: "A palabra non existe",
+        send: "ENVIAR",
+        options: "Opcións",
+        darkMode: "Modo escuro",
+        colorblindMode: "Modo daltónico",
+        accessibilityMode: "Activar accesibilidade",
+        accessibilityModeDescription: "Ao premer a letra explica a situación.",
+        unlimitedMode: "Activar modo ilimitado",
+        alreadyPlayedTitle: "Xa xogaches hoxe!",
+        alreadyPlayedMessage: "Xa adiviñaches a palabra do día neste idioma.",
+        playUnlimitedMode: "Xogar en modo ilimitado",
+        comeTomorrow: "Volta mañá para unha nova palabra.",
+    },
 };
 
 // Función reutilizable para obtener la traducción
