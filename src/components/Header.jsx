@@ -50,26 +50,26 @@ function Header() {
         <header className={`flex flex-row items-center max-w-lg py-2 px-3 border-b dark:border-neutral-700 transition-opacity duration-300 ${showOptions ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             {/* Icono de autenticación (reemplazando el ícono de "cómo jugar") */}
             <div className="relative auth-menu-container flex items-center mr-1">
-                <button 
+                <button
                     onClick={() => setShowAuthMenu(!showAuthMenu)}
                     className="flex items-center justify-center"
                     aria-label="Autenticación"
                 >
                     {status === 'authenticated' && session?.user?.image ? (
-                        <img 
-                            src={session.user.image} 
-                            alt="Usuario" 
+                        <img
+                            src={session.user.image}
+                            alt="Usuario"
                             className="h-6 w-6 rounded-full"
                         />
                     ) : (
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" className="h-6 w-6 text-neutral-500 dark:text-neutral-600">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
                             </path>
                         </svg>
                     )}
                 </button>
-                
+
                 {/* Menú flotante de autenticación */}
                 {showAuthMenu && (
                     <div className="absolute left-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20 p-3 border border-gray-200 dark:border-gray-700">
@@ -92,7 +92,7 @@ function Header() {
 
             {/* Botón de estadísticas */}
             <div className="relative stats-container mr-1">
-                <button 
+                <button
                     className={`text-xl flex items-center ${status !== 'authenticated' ? 'cursor-not-allowed opacity-50' : ''}`}
                     aria-label="estadísticas de juego"
                     onClick={() => status === 'authenticated' && setShowStats(!showStats)}
@@ -135,6 +135,7 @@ function Header() {
                 <option value="es" className="text-black dark:text-white">Español</option>
                 <option value="en" className="text-black dark:text-white">English</option>
                 <option value="eu" className="text-black dark:text-white">Euskara</option>
+                <option value="gl" className="text-black dark:text-white">Galego</option>
             </select>
         </header>
     )

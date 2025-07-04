@@ -76,7 +76,8 @@ export function UserStats() {
               <span className="font-medium text-sm sm:text-base">
                 {lang === 'es' ? 'Español' : 
                  lang === 'en' ? 'English' : 
-                 lang === 'eu' ? 'Euskara' : lang}
+                 lang === 'eu' ? 'Euskara' :
+                 lang === 'gl' ? 'Galego' : lang}
               </span>
               <span className="text-xs sm:text-sm bg-blue-100 dark:bg-blue-900 px-2 py-0.5 rounded-full">
                 Racha: <span className="font-bold">{data.streak}</span> días

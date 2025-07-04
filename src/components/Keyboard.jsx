@@ -8,14 +8,17 @@ import { useCallback, useEffect } from "react";
 function Keyboard() {
   const { onSelectLetter, onEnter, onDelete, disabledLetters, almostLetters, correctLetters, language } = useContext(AppContext);
 
-  const keys1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
-  const keys2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ']
+  let keys1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
+  let keys2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ']
   const keys3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
 
   if (language.toLowerCase() != "es") {
-    // console.log(language.toLowerCase());
-
     keys2.pop();
+  }
+
+  if (language.toLowerCase() === "gl") {
+    keys1 = ['Q', 'E', 'R', 'T', 'U', 'I', 'O', 'P']
+    keys2 = ['A', 'S', 'D', 'F', 'G', 'H', 'L', 'Ñ']
   }
 
   const handleKeyboard = useCallback((event) => {
