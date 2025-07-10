@@ -21,6 +21,10 @@ function Keyboard() {
     keys2 = ['A', 'S', 'D', 'F', 'G', 'H', 'L', 'Ñ']
   }
 
+  if (language.toLowerCase() === "ca") {
+    keys2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ç']
+  }
+
   const handleKeyboard = useCallback((event) => {
     if (event.key === 'Enter') {
       onEnter()

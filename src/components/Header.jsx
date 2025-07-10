@@ -136,6 +136,7 @@ function Header() {
                 <option value="en" className="text-black dark:text-white">English</option>
                 <option value="eu" className="text-black dark:text-white">Euskara</option>
                 <option value="gl" className="text-black dark:text-white">Galego</option>
+                <option value="ca" className="text-black dark:text-white">Català</option>
             </select>
         </header>
     )

@@ -91,6 +91,29 @@ const translations = {
         nextWord: "Seguinte palabra",
         loginPrompt: "Inicia sesión para gardar as túas estatísticas e ver a túa racha de palabras completadas.",
     },
+    ca: {
+        wordNotFound: "La paraula no existeix",
+        send: "ENVIAR",
+        options: "Opcions",
+        darkMode: "Mode fosc",
+        colorblindMode: "Mode daltònic",
+        accessibilityMode: "Activar accessibilitat",
+        accessibilityModeDescription: "En prémer la lletra explica la situació.",
+        unlimitedMode: "Activar mode il·limitat",
+        alreadyPlayedTitle: "Ja has jugat avui!",
+        alreadyPlayedMessage: "Ja has encertat la paraula del dia en aquest idioma.",
+        playUnlimitedMode: "Jugar en mode il·limitat",
+        comeTomorrow: "Torna demà per una nova paraula.",
+        // GameOver component translations
+        gameOverFailed: "Has fallat",
+        gameOverSuccess: "Has encertat!!",
+        attemptsOne: "en {attempts} intent",
+        attemptsMultiple: "en {attempts} intents",
+        todaysWordWas: "La paraula d'avui era:",
+        playAgain: "Tornar a jugar",
+        nextWord: "Següent paraula",
+        loginPrompt: "Inicia sessió per guardar les teves estadístiques i veure la teva ratxa de paraules completades.",
+    },
 };
 
 // Función reutilizable para obtener la traducción

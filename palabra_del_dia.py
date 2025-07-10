@@ -6,7 +6,8 @@ IDIOMAS_RUTAS = {
     'spanish': 'src/data/spanish/sin-tildes/5-definiciones.json',
     'english': 'src/data/english/5-definiciones.json',
     'euskara': 'src/data/euskara/5-definiciones.json',
-    'galego': 'src/data/galego/5-definiciones.json'
+    'galego': 'src/data/galego/5-definiciones.json',
+    'catalan': 'src/data/catala/5-definiciones.json'
 }
 
 # Ruta de salida por idioma
@@ -14,7 +15,8 @@ SALIDA_RUTAS = {
     'spanish': 'src/data/hoy/5/spanish/definiciones.json',
     'english': 'src/data/hoy/5/english/definiciones.json',
     'euskara': 'src/data/hoy/5/euskara/definiciones.json',
-    'galego': 'src/data/hoy/5/galego/definiciones.json'
+    'galego': 'src/data/hoy/5/galego/definiciones.json',
+    'catalan': 'src/data/hoy/5/catala/definiciones.json'
 }
 
 def leer_definiciones(ruta):
@@ -56,6 +58,7 @@ def main():
     seleccionar_definicion("english")
     seleccionar_definicion("euskara")
     seleccionar_definicion("galego")
+    seleccionar_definicion("catalan")
 
 if __name__ == '__main__':
     main()
