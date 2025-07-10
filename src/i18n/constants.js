@@ -11,4 +11,13 @@ export const KEYS = {
     ALREADY_PLAYED_MESSAGE: 'alreadyPlayedMessage',
     PLAY_UNLIMITED_MODE: 'playUnlimitedMode',
     COME_TOMORROW: 'comeTomorrow',
+    // GameOver component keys
+    GAME_OVER_FAILED: 'gameOverFailed',
+    GAME_OVER_SUCCESS: 'gameOverSuccess',
+    ATTEMPTS_ONE: 'attemptsOne',
+    ATTEMPTS_MULTIPLE: 'attemptsMultiple',
+    TODAYS_WORD_WAS: 'todaysWordWas',
+    PLAY_AGAIN: 'playAgain',
+    NEXT_WORD: 'nextWord',
+    LOGIN_PROMPT: 'loginPrompt',
 };

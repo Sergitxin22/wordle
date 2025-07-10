@@ -12,6 +12,15 @@ const translations = {
         alreadyPlayedMessage: "Ya has adivinado la palabra del día en este idioma.",
         playUnlimitedMode: "Jugar en modo ilimitado",
         comeTomorrow: "Vuelve mañana para una nueva palabra.",
+        // GameOver component translations
+        gameOverFailed: "Has fallado",
+        gameOverSuccess: "Has acertado!!",
+        attemptsOne: "en {attempts} intento",
+        attemptsMultiple: "en {attempts} intentos",
+        todaysWordWas: "La palabra de hoy era:",
+        playAgain: "Volver a jugar",
+        nextWord: "Siguiente palabra",
+        loginPrompt: "Inicia sesión para guardar tus estadísticas y ver tu racha de palabras completadas.",
     },
     en: {
         wordNotFound: "The word does not exist",
@@ -26,6 +35,15 @@ const translations = {
         alreadyPlayedMessage: "You have already guessed today's word in this language.",
         playUnlimitedMode: "Play in unlimited mode",
         comeTomorrow: "Come back tomorrow for a new word.",
+        // GameOver component translations
+        gameOverFailed: "You failed",
+        gameOverSuccess: "You got it!!",
+        attemptsOne: "in {attempts} attempt",
+        attemptsMultiple: "in {attempts} attempts",
+        todaysWordWas: "Today's word was:",
+        playAgain: "Play again",
+        nextWord: "Next word",
+        loginPrompt: "Sign in to save your stats and see your word completion streak.",
     },
     eu: {
         wordNotFound: "Hitza ez da existitzen",
@@ -40,6 +58,15 @@ const translations = {
         alreadyPlayedMessage: "Dagoeneko asmatu duzu gaurko hitza hizkuntza honetan.",
         playUnlimitedMode: "Jokatu modu mugagabean",
         comeTomorrow: "Itzuli bihar hitz berri baterako.",
+        // GameOver component translations
+        gameOverFailed: "Huts egin duzu",
+        gameOverSuccess: "Asmatu duzu!!",
+        attemptsOne: "{attempts} saiakeratan",
+        attemptsMultiple: "{attempts} saiakera",
+        todaysWordWas: "Gaurko hitza zen:",
+        playAgain: "Berriro jokatu",
+        nextWord: "Hurrengo hitza",
+        loginPrompt: "Hasi saioa zure estatistikak gordetzeko eta hitzen osatze-sekuentzia ikusteko.",
     },
     gl: {
         wordNotFound: "A palabra non existe",
@@ -54,6 +81,15 @@ const translations = {
         alreadyPlayedMessage: "Xa adiviñaches a palabra do día neste idioma.",
         playUnlimitedMode: "Xogar en modo ilimitado",
         comeTomorrow: "Volta mañá para unha nova palabra.",
+        // GameOver component translations
+        gameOverFailed: "Fallaches",
+        gameOverSuccess: "Acertaches!!",
+        attemptsOne: "en {attempts} intento",
+        attemptsMultiple: "en {attempts} intentos",
+        todaysWordWas: "A palabra de hoxe era:",
+        playAgain: "Volver xogar",
+        nextWord: "Seguinte palabra",
+        loginPrompt: "Inicia sesión para gardar as túas estatísticas e ver a túa racha de palabras completadas.",
     },
 };
 
