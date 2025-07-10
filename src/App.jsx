@@ -18,6 +18,7 @@ export const AppContext = createContext();
 function App() {
   const [language, setLanguage] = useState(localStorage.getItem('language') || "es");
   const [gameMode, setGameMode] = useState(() => localStorage.getItem('unlimited') === 'true');
+  const [colorBlindMode, setColorBlindMode] = useState(() => localStorage.getItem('colorBlindMode') === 'true');
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [wordSet, setWordSet] = useState(new Set());
@@ -95,6 +96,14 @@ function App() {
     setGameMode((prevMode) => {
       const newMode = !prevMode;
       localStorage.setItem('unlimited', newMode);
+      return newMode;
+    });
+  };
+
+  const toggleColorBlindMode = () => {
+    setColorBlindMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem('colorBlindMode', newMode);
       return newMode;
     });
   };
@@ -198,6 +207,9 @@ function App() {
             gameMode,
             setGameMode,
             toggleGameMode,
+            colorBlindMode,
+            setColorBlindMode,
+            toggleColorBlindMode,
             board,
             setBoard,
             currAttempt,

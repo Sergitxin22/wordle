@@ -2,6 +2,11 @@
   --color-correct: #6aaa64;
   --color-almost: #c9b458;
   --color-error: #787c7e;
+
+  /* Colores para modo daltónico */
+  --color-correct-colorblind: #5294cf;
+  --color-almost-colorblind: #f5793a;
+  --color-error-colorblind: #787c7e;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -16,6 +21,11 @@ html.dark {
   --color-correct: #538d4e;
   --color-almost: #b59f3b;
   --color-error: #3a3a3c;
+
+  /* Colores para modo daltónico en tema oscuro */
+  --color-correct-colorblind: #4a90c2;
+  --color-almost-colorblind: #e67e22;
+  --color-error-colorblind: #3a3a3c;
 }
 
 .almost {
@@ -29,6 +39,24 @@ html.dark {
 
 .error {
   background-color: var(--color-error);
+}
+
+/* Clases para modo daltónico */
+.colorblind.almost {
+  background-color: var(--color-almost-colorblind);
+}
+
+.colorblind.correct {
+  background-color: var(--color-correct-colorblind);
+}
+
+.colorblind.error {
+  background-color: var(--color-error-colorblind);
+}
+
+.colorblind#disabled {
+  background-color: var(--color-error-colorblind);
+  color: white;
 }
 
 #disabled {

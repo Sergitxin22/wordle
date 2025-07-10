@@ -6,7 +6,7 @@ import { KEYS } from '../i18n/constants';
 
 function Options() {
 
-    const { showOptions, setShowOptions, darkMode, toggleDarkMode, gameMode, toggleGameMode, language } = useContext(AppContext);
+    const { showOptions, setShowOptions, darkMode, toggleDarkMode, gameMode, toggleGameMode, colorBlindMode, toggleColorBlindMode, language } = useContext(AppContext);
 
     return (
         <div className="h-full w-full">
@@ -28,14 +28,14 @@ function Options() {
                                 type="checkbox" role="switch" id="darkModeMode" checked={darkMode} onChange={toggleDarkMode} />
                         </div>
                     </div>
-                    {/* <div className="flex py-5 border-b border-solid">
+                    <div className="flex py-5 border-b border-solid">
                         <div className="flex flex-auto">
                             <p className="text-md">{getTranslation(KEYS.COLOR_BLIND_MODE, language)}</p>
                         </div>
                         <div className="flex-initial form-check form-switch"><input
                             className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-no-repeat bg-contain bg-neutral-300 dark:bg-neutral-700 checked:dark:bg-blue-500 focus:outline-none cursor-pointer shadow-sm"
-                            type="checkbox" role="switch" id="colorBlindMode" /></div>
-                    </div> */}
+                            type="checkbox" role="switch" id="colorBlindMode" checked={colorBlindMode} onChange={toggleColorBlindMode} /></div>
+                    </div>
                     {/* <div className="flex py-5 border-b border-solid">
                         <div className="flex flex-auto">
                             <div className="flex flex-col">

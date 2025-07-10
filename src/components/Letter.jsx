@@ -7,7 +7,7 @@ function getNumOfOccurrencesInWord(word, letter) {
 }
 
 function Letter({ letterPos, attemptVal }) {
-  const { board, correctWord, currAttempt, disabledLetters, setDisabledLetters, correctLetters, setCorrectLetters, almostLetters, setAlmostLetters, language, gameMode } = useContext(AppContext);
+  const { board, correctWord, currAttempt, disabledLetters, setDisabledLetters, correctLetters, setCorrectLetters, almostLetters, setAlmostLetters, language, gameMode, colorBlindMode } = useContext(AppContext);
   const { status } = useAuth();
   const letter = board[attemptVal][letterPos];
   const [letterState, setLetterState] = useState("");
@@ -86,7 +86,8 @@ function Letter({ letterPos, attemptVal }) {
   // console.log(disabledLetters);
 
   const baseClasses = "w-full aspect-square flex justify-center items-center text-2xl tiny:text-4xl uppercase font-bold select-none border-2 border-neutral-300 dark:border-neutral-700";
-  const letterClasses = letterState ? `text-white ${letterState} border-none` : baseClasses;
+  const colorBlindClass = colorBlindMode ? "colorblind" : "";
+  const letterClasses = letterState ? `text-white ${letterState} ${colorBlindClass} border-none` : baseClasses;
   const letterActiveClasses = letter ? `border-neutral-500 dark:border-neutral-600` : '';
 
   // Retornar la letra con su estado correspondiente

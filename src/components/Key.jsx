@@ -4,7 +4,7 @@ import { getTranslation } from '../i18n/translations';
 import { KEYS } from '../i18n/constants';
 
 function Key({ keyVal, bigKey, disabled, almost, correct }) {
-  const { onSelectLetter, onEnter, disabledLetters, language } = useContext(AppContext);
+  const { onSelectLetter, onEnter, disabledLetters, language, colorBlindMode } = useContext(AppContext);
 
   const selectLetter = () => {
     if (keyVal === "ENVIAR") {
@@ -19,10 +19,12 @@ function Key({ keyVal, bigKey, disabled, almost, correct }) {
     ? getTranslation(KEYS.SEND, language)
     : keyVal;
 
+  const colorBlindClass = colorBlindMode ? "colorblind" : "";
   const keyClasses = [
     "flex-1 rounded uppercase font-bold p-1 sm:p-2 h-16 text-xs tiny:text-base bg-key",
     almost ? "almost" : "",
-    correct ? "correct" : ""
+    correct ? "correct" : "",
+    colorBlindClass
   ].join(" ");
 
   return (
